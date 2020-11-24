@@ -3,7 +3,7 @@ class csdl
 {
 	function connect()
 	{
-		$con=mysqli_connect("localhost","hienvu","123456");
+		$con=mysqli_connect("db","vnappmob","123456");
 		if(!$con)
 		{
 			echo 'Không kết nối csdl';

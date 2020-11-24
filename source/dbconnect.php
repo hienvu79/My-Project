@@ -4,9 +4,9 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-$servername = "localhost"; ///predefined by docker
-$username = "root";
-$password = "";
+$servername = "db"; ///predefined by docker
+$username = "vnappmob";
+$password = "123456";
 $dbname = "greenlight_motel_app";
 
 // Create connection
