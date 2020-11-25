@@ -86,7 +86,7 @@
                       }
                       else{
                         foreach($appoints as $appoint){  
-                          if($appoint['log_status']=="0" && $appoint['log_status']=="6"){
+                          if($appoint['log_status']=="0" ){
                     ?>
                     <tr>
                       <td><?php echo $appoint['customer_name']?></td>

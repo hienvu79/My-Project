@@ -76,7 +76,7 @@
               <h3>
               <?php 
                 if(!empty($bills)){
-                  echo "<a class='badge badge-primary' href='print.php?id=<?php echo $id;?>'>In hóa đơn</a></h3>";
+                  echo "<a class='badge badge-primary' href='print.php?id=$id'>In hóa đơn</a></h3>";
                 }
                 else echo "";
               ?>

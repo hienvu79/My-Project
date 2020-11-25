@@ -20,7 +20,7 @@ GROUP BY t1.room_id";
   }
   
   } else {
-    echo "0 results";
+    echo "";
   }
 ?>
 <!DOCTYPE html>
@@ -51,9 +51,11 @@ GROUP BY t1.room_id";
           <!-- Content Row -->
           <div class="row">
             <?php 
-
+            if(empty($rooms)){
+              echo "<h3>Chưa có khách trọ</h3>";
+            }
+            else{
               foreach($rooms as $room){
-                
             ?>
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -78,6 +80,7 @@ GROUP BY t1.room_id";
               </div>
             </div>
             <?php 
+                }
               }
             ?>
 
