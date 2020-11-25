@@ -74,7 +74,13 @@
             </div>
             <div class="card-body">
               <h3>
-                <a class="badge badge-primary" href="print.php?id=<?php echo $id;?>">In hóa đơn</a></h3>
+              <?php 
+                if(!empty($bills)){
+                  echo "<a class='badge badge-primary' href='print.php?id=<?php echo $id;?>'>In hóa đơn</a></h3>";
+                }
+                else echo "";
+              ?>
+                
               <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0">
                   <thead>
