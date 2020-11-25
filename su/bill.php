@@ -68,7 +68,7 @@ GROUP BY t1.room_id";
                           <?php 
                             if($room['room_status']==1){
                               $id=$room['contract_id'];
-                              echo "<a class='badge badge-primary' href='bill_item?id=$id'>Tạo hóa đơn</a>";
+                              echo "<a class='badge badge-primary' href='bill_item.php?id=$id'>Tạo hóa đơn</a>";
                             }
                             else echo "<span class='badge badge-success'>Phòng trống</span>";
                           ?>    

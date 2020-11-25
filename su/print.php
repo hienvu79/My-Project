@@ -89,6 +89,6 @@
   <div class="footer-left">TP.HCM, ngày <?php echo $day?> tháng <?php echo $mon?> năm <?php echo $year?><br/>
     Khách hàng </div>
   <div class="footer-right">TP.HCM, ngày <?php echo $day?> tháng <?php echo $mon?> năm <?php echo $year?><br/>
-    Nhân viên </div>
+    Chủ trọ </div>
 </div>
 </body>

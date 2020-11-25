@@ -121,7 +121,7 @@
                 </table>
                 <?php 
                 if(empty($bills)){ 
-                    echo "<h3><a class='badge badge-primary' href='bill_item?id=$id'>Tạo hóa đơn</a></h3>";
+                    echo "<h3><a class='badge badge-primary' href='bill_item.php?id=$id'>Tạo hóa đơn</a></h3>";
                 }else{ 
                 ?>
                 <h3><center>Tổng tiền: <?php
