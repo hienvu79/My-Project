@@ -1,11 +1,5 @@
 <?php session_start();?>
 <?php
-	if(!$_SESSION['user'])
-	{
-		header("location:login.php");
-	}
-?>
-<?php
 require_once('source/dbconnect.php');
 mysqli_set_charset($conn, 'UTF8'); 
     $zone_id = $_GET['zone'];

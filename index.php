@@ -80,51 +80,51 @@ error_reporting(E_ALL);
         <!-- Booking Room Start-->
         <div class="booking-area">
             <div class="container">
-               <div class="row ">
-               <div class="col-6">
-                <form action="">
-                <div class="booking-wrap d-flex justify-content-between align-items-center">
-                    <!-- Single Select Box -->
-                    <div class="single-select-box mb-30">
-                        <div class="boking-tittle">
-                            <span>Tìm Kiếm Theo Khu Vực:</span>
-                        </div>
-                        <div class="select-this">
-                            <form action="#" method="post">
-                                <div class="select-itms">
-                                    <select name="zone" id="select1">
-                                        <option value="">Chọn khu vực</option>
-                                        <?php
-                                        foreach($rooms as $room){
-                                        ?>  
-                                            <option value="<?php echo $room['zone_id']?>"><?php echo $room['zone_name']?></option>
-                                            <?php 
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                   </div>
-                    <!-- Single Select Box -->
-                    <div class="single-select-box pt-45 mb-30">
-                        <button type="submit" formmethod="post" class="btn select-btn" name="timkiem">Tìm Kiếm</button>
-                   </div>
-                   <?php 
-                   
-                     if(isset($_POST["timkiem"])) 
-                        { 
-                            if(isset($_POST['zone']))
-                            {
-                                $zone = $_POST['zone'];
-                                header("Location: zone.php?zone=$zone");
-                            }
-                        } 
-                   ?>
+                <div class="row ">
+                    <div class="col-xl-6">
+                        <form action="">
+                            <div class="booking-wrap d-flex justify-content-between align-items-center">
+                                <!-- Single Select Box -->
+                                <div class="single-select-box mb-30">
+                                    <div class="boking-tittle">
+                                        <span>Tìm Kiếm Theo Khu Vực:</span>
+                                    </div>
+                                    <div class="select-this">
+                                        <form action="#" method="post">
+                                            <div class="select-itms">
+                                                <select name="zone" id="select1">
+                                                    <option value="">Chọn khu vực</option>
+                                                    <?php
+                                                    foreach($rooms as $room){
+                                                    ?>  
+                                                        <option value="<?php echo $room['zone_id']?>"><?php echo $room['zone_name']?></option>
+                                                        <?php 
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                            </div>
+                                <!-- Single Select Box -->
+                                <div class="single-select-box pt-45 mb-30">
+                                    <button type="submit" formmethod="post" class="btn select-btn" name="timkiem">Tìm Kiếm</button>
+                            </div>
+                            <?php 
+                            
+                                if(isset($_POST["timkiem"])) 
+                                    { 
+                                        if(isset($_POST['zone']))
+                                        {
+                                            $zone = $_POST['zone'];
+                                            header("Location: zone.php?zone=$zone");
+                                        }
+                                    } 
+                            ?>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                </form>
-               </div>
-               </div>
             </div>
         </div>
         
