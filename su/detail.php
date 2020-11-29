@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-    if(!isset($_SESSION["user"])){
+    if($_SESSION["user"]!="admin"){
         header("location: login.php");
     }
 ?>
@@ -71,8 +71,15 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                 <div class="col-lg-9">
                                     <h4><?php echo $room['customer_name']?></h4>
                                     <div class="button-list mt-4 mb-3">
-                                        <button type="button" class="btn btn-primary-rgba"><i class="feather icon-message-square mr-2"></i>Message</button>
-                                        <button type="button" class="btn btn-success-rgba"><i class="feather icon-phone mr-2"></i>Call Now</button>
+                                        <?php 
+                                            if(empty($room)){
+                                             ?>   
+                                        <a type="button" class="btn btn-primary-rgba" href="contract.php?id=<?php $con_id = $room['contract_id']; echo $con_id?>">
+                                        <i class="feather icon-message-square mr-2"></i>Nhập giá trị hợp đồng</a>
+                                        <?php    
+                                            }
+                                            else echo"";
+                                        ?>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-borderless mb-0">

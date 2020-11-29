@@ -45,9 +45,7 @@ $sql = "SELECT * FROM green_room";
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">QUẢN LÝ CHUNG</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
-
           <!-- Content Row -->
           <div class="row">
             <?php 
@@ -64,13 +62,17 @@ $sql = "SELECT * FROM green_room";
                     </div>
                     <div class="col mr-2">
                       <div class="h5 mb-0 font-weight-bold text-gray-800">PHÒNG <?php echo $room['room_name'] ?></div>
-                        
                           <?php 
                             if($room['room_status']==1){
                               $id = $room['room_id'];
                               echo "<a class='badge badge-danger' href='detail.php?id=$id'>Đã được thuê</a>";
                             }
-                            else echo "<span class='badge badge-success'>Phòng trống</span>";
+                            else 
+                            {
+                              $id = $room['room_id'];
+                              echo "<a class='badge badge-success' href='add_new.php?id=$id'>Phòng trống</a>";
+                            }
+                            
                           ?>    
                       </div>
                   </div>

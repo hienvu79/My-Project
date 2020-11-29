@@ -103,56 +103,57 @@ class customer
 		WHERE room_id ='$room_id'";
 		mysqli_query($con,$b);
 	}
-	function checknew($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$room_id,$join,$expires,$con)
+	function checknew($id,$user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
 	{
-		if($user == ""||$pass == ""||$fullname == ""||$sdt == ""||$cmnd == ""||$ngaysinh == ""||$room_id == ""||$join ==""||$expires =="")
+		$sql="SELECT * FROM green_customer WHERE user_name='$user'";
+		$ketqua=mysqli_query($con,$sql);
+		$i=mysqli_num_rows($ketqua);
+		if ($i>0)
+		{
+			echo "<script> swal('Tên đăng nhập bị trùng','Chọn tên đăng nhập khác','error')</script>";
+			return false;
+		}
+		$sql="SELECT * FROM green_customer WHERE customer_identity='$cmnd'";
+		$ketqua=mysqli_query($con,$sql);
+		$i=mysqli_num_rows($ketqua);
+		if ($i>0)
+		{
+			echo "<script> swal('Khách trọ đã thêm','Vui lòng chọn khách trọ khác','error')</script>";
+			return false;
+		}	
+		if($user == ""||$pass == ""||$fullname == ""||$sdt == ""||$cmnd == ""||$ngaysinh == ""||$join ==""||$expires =="")
 		{
 			echo "<script> swal('Bạn chưa nhập đủ thông tin','Yêu cầu nhập đủ','warning')</script>";
 			return false;
 		}
 		else
 		{
-			$sql="SELECT * FROM green_customer WHERE user_name='$user'";
-			$ketqua=mysqli_query($con,$sql);
-			$i=mysqli_num_rows($ketqua);
-			if ($i>0)
-			{
-				echo "<script> swal('Tên đăng nhập bị trùng','Chọn tên đăng nhập khác','error')</script>";
-				return false;
-			}
-			$sql="SELECT * FROM green_customer WHERE customer_identity='$cmnd'";
-			$ketqua=mysqli_query($con,$sql);
-			$i=mysqli_num_rows($ketqua);
-			if ($i>0)
-			{
-				echo "<script> swal('Khách trọ đã thêm','Vui lòng chọn khách trọ khác','error')</script>";
-				return false;
-			}	
 			if (!is_numeric($sdt)||!is_numeric($cmnd)){
 				echo "<script> swal('Lỗi','Vui lòng nhập số','error')</script>";
 				return false;
 			}
 			else
 			{
-				$this->add_new($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$room_id,$join,$expires,$con);
-				echo "<script> swal('Oke!','Thêm khách trọ thành công','success')</script>";
+				$this->add_new($id,$user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
 			}
 		}
 		
 	}
-	function add_new($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$room_id,$join,$expires,$con)
+	function add_new($id,$user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
 	{
 		$a="INSERT INTO green_customer(customer_name,customer_phone,customer_identity,customer_birthday,user_name,user_pass)
 		VALUES('$fullname','$sdt','$cmnd','$ngaysinh','$user','$pass')";
 		$b="UPDATE green_room SET room_status='1', available_date='$expires'
-		WHERE room_id ='$room_id'";
+		WHERE room_id ='$id'";
 		mysqli_query($con,$b);
 		if ($con->query($a) === TRUE){
 			$cus_id = $con->insert_id;
-			$c="INSERT INTO green_contract(customer_id,room_id,contract_datetime,contract_expires) values('$cus_id','$room_id','$join','$expires')";
+			$c="INSERT INTO green_contract(customer_id,room_id,contract_datetime,contract_expires) VALUES('$cus_id','$id','$join','$expires')";
 			mysqli_query($con,$c);
+			echo "<script> swal('Oke!','Thêm khách trọ thành công','success')</script>";
 		}
-		else{
+		else
+		{
 			echo 'Không thành công. Lỗi' . $con->error;
 		}
 	}
@@ -237,13 +238,15 @@ class contract
 		mysqli_query($con,$a);
 		$b = "INSERT INTO green_contract_record(contract_id,electric_num_old,electric_num_new,water_num_old,water_num_new) VALUES('$id','$e_old','$e_old','$w_old','$w_old')";
 		mysqli_query($con,$b);
+		$c = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$id','đang thuê','0')";
+		mysqli_query($con,$c);
 		echo "<script> swal('Oke!','Thêm thành công','success')</script>";
 	}
 	function addrecord($id,$e_old,$w_old,$e_new,$w_new,$con)
 	{
 		$a = "INSERT INTO green_contract_record(contract_id,electric_num_old,electric_num_new,water_num_old,water_num_new) VALUES('$id','$e_old','$e_new','$w_old','$w_new')";
 		mysqli_query($con,$a);
-		echo "<script> swal('Oke!','Thêm chỉ số thành công','success')</script>";
+		//echo "<script> swal('Oke!','Thêm chỉ số thành công','success')</script>";
 	}
 	// function checkbill($id,$timestamp,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$dept,$status,$status1,$con)
 	// {
@@ -287,5 +290,19 @@ class contract
 			echo 'Không thành công. Lỗi' . $con->error;
 		}
 	}
+	function giahan($con_id,$con)
+	{
+		$a = "UPDATE green_contract_log SET contract_id = '$con_id', log_content = 'Xác nhận gia hạn hợp đồng', log_status = '3'
+		WHERE log_status = '1'";
+		mysqli_query($con,$a);
+		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
+	}
+	function huy($con_id,$con)
+	{
+		$b = "UPDATE green_contract_log SET contract_id = '$con_id', log_content = 'Xác nhận kết thúc hợp đồng', log_status = '4'
+		WHERE log_status = '2'";
+		mysqli_query($con,$b);
+		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
+	}	
 }
 ?>

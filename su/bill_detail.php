@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-    if(!isset($_SESSION["user"])){
+    if($_SESSION["user"]!="admin"){
         header("location: login.php");
     }
 ?>
@@ -51,16 +51,13 @@
 
   <?php require_once 'block/block_menu.php';  ?>
     <!-- End of Sidebar -->
-  </div>
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800"></h1>
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">HÓA ĐƠN PHÒNG</h1>
+            <a href="print.php?id=<?php echo $bills[0]['bill_id']?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> In hóa đơn</a>
+          </div>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -73,14 +70,6 @@
               echo $date;}?></h6>
             </div>
             <div class="card-body">
-              <h3>
-              <?php 
-                if(!empty($bills)){
-                  echo "<a class='badge badge-primary' href='print.php?id=$id'>In hóa đơn</a></h3>";
-                }
-                else echo "";
-              ?>
-                
               <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0">
                   <thead>

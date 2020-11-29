@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-    if(!isset($_SESSION["user"])){
+    if($_SESSION["user"]!="admin"){
         header("location: login.php");
     }
 ?>
@@ -9,9 +9,10 @@
   mysqli_set_charset($conn, 'UTF8');
   
   $sql = "SELECT * FROM green_appointment t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id
-  INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
-  INNER JOIN green_log t4 ON t1.appoint_id=t4.appoint_id
-  WHERE t4.log_status='3'";
+                                             INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
+                                             INNER JOIN green_log t4 ON t1.appoint_id=t4.appoint_id
+                                             WHERE t4.log_status='3'";
+    
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result) > 0) {

@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-    if(!isset($_SESSION["user"])){
+    if($_SESSION["user"]!="admin"){
         header("location: login.php");
     }
 ?>
@@ -59,29 +59,34 @@
       <th>Đã dùng</th>
       <th>Thành tiền</th>
     </tr>
-    <?php 
-                        $i = 1;
-                        $a=0;
-                        foreach($bills as $bill){
-                            $a += $bill['quantity']*$bill['price'];
-                    ?>
-                    <tr>
-                      <td><center><?php echo $i;?></center></td>
-                      <td><?php echo $bill['item_name']?></td>
-                      <td><?php echo number_format($bill['price'])?> đ</td>
-                      <td><?php echo $bill['quantity']?></td>
-                      <td><?php echo number_format($bill['quantity']*$bill['price'])?></td>
-                    </tr>
-                      <?php 
-                          $i++;
-                      }
-                  ?>
+    <?php
+      if(empty($bills)){
+        echo "<center><h3>Chưa tạo hóa đơn</h3></center>";
+      } 
+      else{
+          $i = 1;
+          $a=0;
+          foreach($bills as $bill){
+              $a += $bill['quantity']*$bill['price'];
+      ?>
+      <tr>
+        <td><center><?php echo $i;?></center></td>
+        <td><?php echo $bill['item_name']?></td>
+        <td><?php echo number_format($bill['price'])?> đ</td>
+        <td><?php echo $bill['quantity']?></td>
+        <td><?php echo number_format($bill['quantity']*$bill['price'])?></td>
+      </tr>
+        <?php 
+            $i++;
+        }
+    ?>
     <tr>
       <td colspan="4" class="tong">Tổng cộng</td>
       <td class="cotSo"><?php echo number_format($a)?> VND</td>
     </tr>
   </table>
   <?php 
+      }
     $day = date("d");
     $mon = date("m");
     $year = date("Y");

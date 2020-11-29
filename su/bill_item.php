@@ -1,6 +1,6 @@
 <?php session_start();?>
 <?php
-    if(!isset($_SESSION["user"])){
+    if($_SESSION["user"]!="admin"){
         header("location: login.php");
     }
 ?>
@@ -80,9 +80,7 @@
                         $price_e = number_format($room['price_electric']);
                         $price_w = number_format($room['price_water']);
                         $num_e = $room['electric_num_new'] - $room['electric_num_old'];
-                        $e_total = number_format($num_e*$room['price_electric']);
                         $num_w = $room['water_num_new'] - $room['water_num_old'];
-                        $w_total = number_format($num_w*$room['price_water']);
                         $date = date("d-m-Y", strtotime($room['contract_datetime']));
                         ?>
                         <div class="row">
@@ -112,31 +110,27 @@
                                         <label >Điện:</label>
                                     </div>
                                     <div class="col-4 form-group">
-                                        <label >Đã dùng:</label>
-                                        <input type="text" class="col-sm-6 form-control" value="<?php echo $num_e;?>" name="e_num" readonly>
+                                        <label >Số cũ:</label>
+                                        <input type="number" class="col-sm-6 form-control" value="<?php echo $room['electric_num_new'];?>" name="e_old" readonly>
                                     </div>
                                     <div class="col-4 form-group">
-                                        <label >Đơn giá:</label>
-                                        <input type="text" class="col-sm-6 form-control" value="<?php echo $price_e;?>" name="e_price" readonly>
+                                        <label >Số mới:</label>
+                                        <input type="number" class="col-sm-6 form-control" name="e_new">
                                     </div>
                                 </div>
-                                <hr>
-                                <center>Tổng tiền điện: <?php echo $e_total;?></center>
                                 <div class="form-row">
                                     <div class="col-3 form-group">
                                         <label >Nước:</label>
                                     </div>
                                     <div class="col-4 form-group">
-                                        <label >Đã dùng:</label>
-                                        <input type="text" class="col-sm-6 form-control" value="<?php echo $num_w;?>" name="w_num" readonly>
+                                        <label >Số cũ:</label>
+                                        <input type="number" class="col-sm-6 form-control" value="<?php echo $room['water_num_new'];?>" name="w_old" readonly>
                                     </div>
                                     <div class="col-4 form-group">
-                                        <label >Đơn giá:</label>
-                                        <input type="text" class="col-sm-6 form-control" value="<?php echo $price_w;?>" name="w_price" readonly>
+                                        <label >Số mới:</label>
+                                        <input type="number" class="col-sm-6 form-control" name="w_new">
                                     </div>
                                 </div>
-                                <hr>
-                                <center>Tổng tiền nước: <?php echo $w_total;?></center>
                                 <div class="form-group">
                                     <label>Phí khác:</label>
                                     <input type="text" class="col-sm-3 form-control" placeholder="Phí phát sinh" name="incurred">
@@ -164,12 +158,17 @@
         <?php
             if(isset($_POST['them'])){
                 $con=$p->connect();
+                $e_old=$_POST['e_old'];
+                $w_old=$_POST['w_old'];
+                $e_new=$_POST['e_new'];
+                $w_new=$_POST['w_new'];
+
                 $wifi=$_POST['wifi'];
                 $cap=$_POST['cap'];
                 $p_room=$room['room_price'];
-                $e_num=$room['electric_num_new'] - $room['electric_num_old'];
+                $e_num=$e_new - $e_old;
                 $e_price=$room['price_electric'];
-                $w_num=$room['water_num_new'] - $room['water_num_old'];
+                $w_num=$w_new - $w_old;
                 $w_price=$room['price_water'];
                 $incurred=$_POST['incurred'];
                 $date=$_POST['date'];
@@ -182,6 +181,7 @@
                   else $status2 = 1;
                 if($dept=='0') $status3 = 0;
                   else $status3 = 1;
+                $q->addrecord($id,$e_old,$w_old,$e_new,$w_new,$con);
                 $q->addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$dept,$status,$status1,$status2,$status3,$con);
             }
         ?>

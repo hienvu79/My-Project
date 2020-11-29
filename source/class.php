@@ -64,7 +64,7 @@ class taikhoan
 	{
         echo "<script> swal('Tên đăng nhập bị trùng','Nhập lại tên khác','error')</script>";
         return false;
-    }
+	}
     if($user == ""||$pass ==""||$fullname==""||$sdt ==""||$cmnd ==""||$ngaysinh =="")
     {
         echo "<script> swal('Bạn chưa nhập đủ thông tin','Yêu cầu nhập đủ','warning')</script>";
@@ -80,7 +80,7 @@ class upload
 {
 	function uphinh($room_id,$path,$con)
 	{
-		$a="insert into green_room_img(room_name,img_link) values('$room_id','$path')";
+		$a="INSERT INTO green_room_img(room_name,img_link) VALUES('$room_id','$path')";
 		mysqli_query($con,$a);
 	}
 }
