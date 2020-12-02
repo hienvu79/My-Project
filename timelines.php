@@ -35,7 +35,7 @@ mysqli_close($conn);
         <script src="js/timeline.min.js"></script>
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/timeline.min.css" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
    </head>
     <style>
     .btn{
@@ -150,12 +150,12 @@ label {
     </main>
     <script>
     $(document).ready(function(){
-        /*timeline(document.querySelectorAll('.timeline'), {
-            mode: 'horizontal',
-            visibleItems: 4,
-            forceVerticalWidth: 800
-        });*/
-        //jQuery('.timeline').timeline();
+        // timeline(document.querySelectorAll('.timeline'), {
+        //     mode: 'horizontal',
+        //     visibleItems: 4,
+        //     forceVerticalWidth: 800
+        // });
+        // jQuery('.timeline').timeline();
         jQuery('.timeline').timeline({
             mode: 'horizontal',
             visibleItems: 4,
@@ -167,7 +167,7 @@ label {
         <?php require_once 'block/block_footer.php'?> 
    </footer>
    <!-- Jquery Mobile Menu -->
-   <script src="./assets/js/jquery.slicknav.min.js"></script>		
+    <script src="./assets/js/jquery.slicknav.min.js"></script>		
     <script src="./assets/js/popper.min.js"></script>
     <!-- Jquery Slick , Owl-Carousel Plugins -->
     <script src="./assets/js/owl.carousel.min.js"></script>
@@ -180,8 +180,6 @@ label {
     <script src="./assets/js/jquery.sticky.js"></script>
 
     <!-- contact js -->
-
-    <!-- Jquery Plugins, main Jquery -->	
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
     </body>

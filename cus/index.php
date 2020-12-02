@@ -22,7 +22,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
   }
   
   } else {
-    echo "0 results";
+    echo "";
   }
 ?>
 <!DOCTYPE html>
@@ -53,14 +53,15 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
         <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">
-              Phòng <?php echo $rooms[0]['room_name']?></h6>
+              Phòng <?php if(!empty($rooms)){echo $rooms[0]['room_name'];} else echo"";?></h6>
             </div>
           <!-- Content Row -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.27.0/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
+        <script src="js/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
         <div class="container">
             <div class="row">
             <!-- Start col -->
                 <?php 
+                    if(!empty($rooms)){
                     foreach($rooms as $room){
                     $birth = date("d-m-Y", strtotime($room['customer_birthday']));
                     $date = date("d-m-Y", strtotime($room['contract_datetime']));
@@ -71,7 +72,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                         <div class="card-body py-5">
                             <div class="row">
                                 <div class="col-lg-3 text-center">
-                                    <img src="https://i.pinimg.com/originals/5f/27/89/5f2789aa648a65b07c0d73381b28b644.jpg" class="img-fluid mb-3" alt="user" />
+                                    <img src="img/avatar1.jpg" class="img-fluid mb-3" alt="user" />
                                 </div>
                                 <div class="col-lg-9">
                                     <h4><?php echo $room['customer_name']?></h4>
@@ -161,7 +162,9 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                 </div>
             <!-- End col -->
                 <?php  
+                    }
                 }    
+                else echo"";
             ?>
             </div>
         </div>

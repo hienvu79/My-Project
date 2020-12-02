@@ -51,7 +51,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
               Phòng <?php echo $rooms[0]['room_name']?></h6>
             </div>
           <!-- Content Row -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.27.0/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
+        <script src="js/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
         <div class="container">
             <div class="row">
             <!-- Start col -->
@@ -66,15 +66,15 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                         <div class="card-body py-5">
                             <div class="row">
                                 <div class="col-lg-3 text-center">
-                                    <img src="https://i.pinimg.com/originals/5f/27/89/5f2789aa648a65b07c0d73381b28b644.jpg" class="img-fluid mb-3" alt="user" />
+                                    <img src="img/avatar1.jpg" class="img-fluid mb-3" alt="user" />
                                 </div>
                                 <div class="col-lg-9">
                                     <h4><?php echo $room['customer_name']?></h4>
                                     <div class="button-list mt-4 mb-3">
                                         <?php 
-                                            if(empty($room)){
+                                            if(!empty($room)){
                                              ?>   
-                                        <a type="button" class="btn btn-primary-rgba" href="contract.php?id=<?php $con_id = $room['contract_id']; echo $con_id?>">
+                                        <a type="button" class="btn btn-primary-rgba" href="input_num.php?id=<?php $con_id = $room['contract_id']; echo $con_id?>">
                                         <i class="feather icon-message-square mr-2"></i>Nhập giá trị hợp đồng</a>
                                         <?php    
                                             }
