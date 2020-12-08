@@ -70,7 +70,7 @@ $sql = "SELECT * FROM green_room";
                             else 
                             {
                               $id = $room['room_id'];
-                              echo "<a class='badge badge-success' href='add_new.php?id=$id'>Phòng trống</a>";
+                              echo "<a class='badge badge-success' href='add_customers.php?id=$id'>Phòng trống</a>";
                             }
                             
                           ?>    

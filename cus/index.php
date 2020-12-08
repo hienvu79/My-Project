@@ -10,7 +10,14 @@ mysqli_set_charset($conn, 'UTF8');
 $id = $_SESSION['customer_id'];
 $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id 
                                         INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
-                                        INNER JOIN green_contract_log t4 ON t1.contract_id = t4.contract_id
+                                        INNER JOIN green_appointment t4 ON t1.customer_id = t4.customer_id
+                                        INNER JOIN (
+                                            SELECT *
+                                            FROM green_contract_log 
+                                            WHERE log_date IN(
+                                            SELECT MAX(log_date) 
+                                            FROM green_contract_log GROUP BY contract_id)) 
+                                        t5 ON t1.contract_id = t5.contract_id
         WHERE t1.customer_id  = '$id'";
     $result = mysqli_query($conn, $sql);
   
@@ -61,11 +68,14 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
             <div class="row">
             <!-- Start col -->
                 <?php 
-                    if(!empty($rooms)){
+                    if(empty($rooms)){
+                        echo"";
+                    }
+                    else{
                     foreach($rooms as $room){
-                    $birth = date("d-m-Y", strtotime($room['customer_birthday']));
-                    $date = date("d-m-Y", strtotime($room['contract_datetime']));
-                    $expires = date("d-m-Y", strtotime($room['contract_expires']));
+                        $birth = date("d-m-Y", strtotime($room['customer_birthday']));
+                        $date = date("d-m-Y", strtotime($room['contract_datetime']));
+                        $expires = date("d-m-Y", strtotime($room['contract_expires']));
                 ?>
                 <div class="col-lg-6">
                     <div class="card m-b-30">  
@@ -81,56 +91,38 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                         $today = date("m-Y");
                                         $month = strtotime(date("d-m-Y", strtotime($expires)) . " -1 month");
                                         $month = strftime("%m-%Y", $month);
-                                        if($room['log_status']==0)
-                                        {
+                                        if($room['log_status']==0){
                                             if($month == $today)
                                             {
-                                                echo "Sắp đến hạn hợp đồng, bạn muốn gia hạn tiếp hay kết thúc hợp đồng.";
+                                                echo "Sắp đến hạn hợp đồng.";
                                     ?>
                                     <div class="button-list mt-4 mb-3">
                                         <form>
-                                            <button type="submit" class="btn btn-primary-rgba" formmethod="post" name="oke" type="submit"><i class="feather icon-message-square mr-2"></i>Gia Hạn</button>
-                                            <button type="submit" class="btn btn-success-rgba" formmethod="post" name="huy" type="submit"><i class="feather icon-phone mr-2"></i>Kết Thúc</button>
+                                            <button type="submit" class="btn btn-success-rgba" formmethod="post" name="huy" type="submit"><i class="feather icon-phone mr-2"></i>Trả Phòng</button>
                                         </form>
                                     </div>
                                         <?php 
                                             }
-                                            else echo "";   
+                                            else
+                                            {
+                                                echo "";
+                                            } 
                                         }
-                                    
+                                        else echo "Ngày trả phòng: $expires";
                                     ?>
                                     </div>
                                     <?php
                                         if(isset($_POST['huy'])){
                                             $con = $p->connect();
-                                            $con_id  = $room['contract_id']; 
-                                            $q->huy($con_id,$con);
-                                        }
-                                        if(isset($_POST['oke'])){
-                                            $con = $p->connect();
-                                            $con_id  = $room['contract_id']; 
-                                            $q->giahan($con_id,$con);
+                                            $app_id  = $room['appoint_id']; 
+                                            $con_id  = $room['contract_id'];
+                                            $date    = $room['contract_expires'];
+                                            $q->huy($con_id,$app_id,$date,$con);
                                         }
                                     ?>
                                     <div class="table-responsive">
                                         <table class="table table-borderless mb-0">
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row" class="p-1">Tình trạng:</th>
-                                                    <td class="p-1">
-                                                        <?php $content = $room['log_content'];
-                                                        if($room['log_status']==0){
-                                                            echo "<span class='text-primary'>$content</span>";
-                                                        }
-                                                        if($room['log_status']==1||$room['log_status']==3){
-                                                            echo "<span class='text-success'>$content</span>";
-                                                        }
-                                                        if($room['log_status']==2||$room['log_status']==4){
-                                                            echo "<span class='text-danger'>$content</span>";
-                                                        }
-                                                        ?>
-                                                    </td>
-                                                </tr>
                                                 <tr>
                                                     <th scope="row" class="p-1">Số CMND :</th>
                                                     <td class="p-1"><?php echo $room['customer_identity']?></td>
@@ -152,7 +144,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                                     <td class="p-1"><?php echo $expires;?></td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table><br>
                                         <a class="btn btn-primary" href="detail.php?id=<?php echo $room['room_id']?>">Chi tiết phòng</a>
                                     </div>
                                 </div>
@@ -164,7 +156,6 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                 <?php  
                     }
                 }    
-                else echo"";
             ?>
             </div>
         </div>

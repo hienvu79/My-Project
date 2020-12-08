@@ -58,7 +58,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Phòng <?php echo $rooms[0]['room_name']?></h6>
+              <h6 class="m-0 font-weight-bold text-primary">Phòng <?php if(!empty($rooms)){echo $rooms[0]['room_name'];} else echo"";?></h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cus-date" class="col-form-label">Hạn hợp đồng:</label>
-                                    <input type="text" class="form-control" name="expires" value="<?php echo $rooms[0]['contract_expires']?>" readonly>
+                                    <input type="text" class="form-control" name="expires" value="<?php if(!empty($rooms)){echo $rooms[0]['contract_expires'];}else echo"";?>" readonly>
                                 </div>
                             </div>
                             <div class="col-md-12">

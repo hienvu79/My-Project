@@ -88,7 +88,7 @@
                       <th>STT</th>
                       <th>Các loại phí</th>
                       <th>Đơn giá</th>
-                      <th>Đã dùng</th>
+                      <th>Số lượng</th>
                       <th>Tổng</th>
                     </tr>
                   </thead>

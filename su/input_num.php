@@ -7,10 +7,10 @@
   <?php
   require_once('source/dbconnect.php');
   mysqli_set_charset($conn, 'UTF8');
-  $id = $_GET['id'];
+  $room_id = $_GET['id'];
   $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id
-                                          INNER JOIN green_contract_price t3 ON t1.contract_id = t3.contract_id
-   WHERE t1.contract_id = '$id'";
+                                          INNER JOIN green_appointment t3 ON t1.room_id = t3.room_id
+   WHERE t1.room_id = '$room_id'";
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result) > 0) {
@@ -59,14 +59,11 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Hợp đồng số <?php echo $id;?></h6>
+              <h6 class="m-0 font-weight-bold text-primary">Hợp đồng số <?php echo $rooms[0]['contract_id'];?></h6>
             </div>
             <div class="card-body">
                 <div class="container">
                     <form class="form-horizontal">
-                      <?php
-                        if(empty($rooms)){
-                      ?>
                         <div class="row">
                             <div class="col-md-4">
                               <h3>Điện</h3>
@@ -105,9 +102,6 @@
                                 <center><button class="btn btn-primary" formmethod="post" type="submit" name="them">Thêm</button></center>
                             </div>
                         </div>
-                        <?php 
-                          }
-                        ?>
                     </form>
                 </div>
             </div>
@@ -121,15 +115,18 @@
         <?php
             if(isset($_POST['them'])){
                 $con=$p->connect();
+                $id=$rooms[0]['contract_id'];
                 $e_old=$_POST['e_old'];
                 $e_price=$_POST['e_price'];
                 $w_old=$_POST['w_old'];
                 $w_price=$_POST['w_price'];
                 $wifi=$_POST['wifi'];
                 $cap=$_POST['cap'];
-                $q->checkprice($id,$e_old,$e_price,$w_old,$w_price,$wifi,$cap,$con);
+                $app_id=$rooms[0]['appoint_id'];
+                $q->checkprice($id,$app_id,$e_old,$e_price,$w_old,$w_price,$wifi,$cap,$con);
             }
         ?>
+
 
   <?php require_once 'block/block_footer.php'; ?>
  <?php require_once 'block/block_foottag.php'; ?>

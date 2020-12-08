@@ -20,60 +20,59 @@ class csdl
 class taikhoan
 {
 	function login($user,$pass,$con)
+	{	
+		$pass_md5=md5($pass);
+		$sql="SELECT * FROM green_customer WHERE user_name = '$user';";
+		$ketqua=mysqli_query($con,$sql);
+		$total_row = mysqli_num_rows($ketqua);
+		if($total_row > 0)
 		{
-			
-			$pass_md5=md5($pass);
-			$sql="SELECT * FROM green_customer WHERE user_name = '$user';";
-			$ketqua=mysqli_query($con,$sql);
-			$total_row = mysqli_num_rows($ketqua);
-			if($total_row > 0)
+			$row = mysqli_fetch_array($ketqua,MYSQLI_ASSOC);
+			if($row['user_pass'] == $pass_md5)
 			{
-				$row = mysqli_fetch_array($ketqua,MYSQLI_ASSOC);
-				if($row['user_pass'] == $pass_md5)
-				{
-					$_SESSION["user"] = $row['user_name'];
-					$_SESSION["customer_id"] = $row['customer_id'];
-					header("location:index.php");
-				}
-				else
-				{
-					echo "<script> swal('Tên đăng nhập hoặc mật khẩu sai','Vui lòng nhập lại','error')</script>";
-					return false;
-				}
+				$_SESSION["user"] = $row['user_name'];
+				$_SESSION["customer_id"] = $row['customer_id'];
+				header("location:index.php");
 			}
 			else
 			{
 				echo "<script> swal('Tên đăng nhập hoặc mật khẩu sai','Vui lòng nhập lại','error')</script>";
 				return false;
 			}
-			
 		}
+		else
+		{
+			echo "<script> swal('Tên đăng nhập hoặc mật khẩu sai','Vui lòng nhập lại','error')</script>";
+			return false;
+		}		
+	}
+	function checkdangky($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$con)
+	{	
+		if($user == ""||$pass ==""||$fullname==""||$sdt ==""||$cmnd ==""||$ngaysinh =="")
+		{
+			echo "<script> swal('Bạn chưa nhập đủ thông tin','Yêu cầu nhập đủ','warning')</script>";
+			return false;
+		}
+		else
+		{
+			$sql="SELECT user_name FROM green_customer WHERE user_name='$user'";
+			$ketqua=mysqli_query($con,$sql);
+			$i=mysqli_num_rows($ketqua);
+			if ($i>0)
+			{
+				echo "<script> swal('Tên đăng nhập bị trùng','Nhập lại tên khác','error')</script>";
+				return false;
+			}
+			else{
+				$this->dangky($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$con);
+				echo "<script> swal('Oke!','Đăng ký thành công','success')</script>";
+			}	
+		}
+	}
 	function dangky($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$con)
 	{
-		$a="insert into green_customer(customer_name,customer_phone,customer_identity,customer_birthday,user_name,user_pass) values ('$fullname','$sdt','$cmnd','$ngaysinh','$user','$pass')";
+		$a="INSERT INTO green_customer(customer_name,customer_phone,customer_identity,customer_birthday,user_name,user_pass) VALUES('$fullname','$sdt','$cmnd','$ngaysinh','$user','$pass')";
 		mysqli_query($con,$a);
-	}
-		
-	function checkdangky($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$con)
-	{
-		
-	$sql="SELECT user_name FROM green_account WHERE user_name='$user'";
-	$ketqua=mysqli_query($con,$sql);
-	$i=mysqli_num_rows($ketqua);
-    if ($i>0)
-	{
-        echo "<script> swal('Tên đăng nhập bị trùng','Nhập lại tên khác','error')</script>";
-        return false;
-	}
-    if($user == ""||$pass ==""||$fullname==""||$sdt ==""||$cmnd ==""||$ngaysinh =="")
-    {
-        echo "<script> swal('Bạn chưa nhập đủ thông tin','Yêu cầu nhập đủ','warning')</script>";
-        return false;
-    }
-    else{
-		$this->dangky($user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$con);
-		echo "<script> swal('Oke!','Đăng ký thành công','success')</script>";
-        }	
 	}
 }
 class upload

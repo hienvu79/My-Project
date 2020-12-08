@@ -50,20 +50,12 @@ class taikhoan
 }
 class contract
 {
-	function giahan($con_id,$con)
+	function huy($con_id,$app_id,$date,$con)
 	{
-		$b = "UPDATE green_contract_log 
-		SET log_status = '1', log_content = 'Gia hạn hợp đồng'
-		WHERE contract_id = '$con_id'";
-		mysqli_query($con,$b);
-		echo "<script> swal('Oke','Bạn đã chọn gia hạn hợp đồng','success')</script>";
-	}
-	function huy($con_id,$con)
-	{
-		$a = "UPDATE green_contract_log 
-		SET log_status = '2', log_content = 'Kết thúc hợp đồng'
-		WHERE contract_id = '$con_id'";
+		$a = "INSERT INTO green_log(appoint_id,log_content,log_status,log_date) VALUES('$app_id','Kết Thúc Hợp Đồng','7','$date')";
 		mysqli_query($con,$a);
+		$b = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Kết Thúc Hợp Đồng','1')";
+		mysqli_query($con,$b);
 		echo "<script> swal('Oke','Bạn đã chọn kết thúc hợp đồng','success')</script>";
 	}
 }
@@ -110,7 +102,7 @@ class customer
 			$c="INSERT INTO green_contract(customer_id,room_id,contract_datetime,contract_expires) VALUES('$cus_id','$room_id','$join','$expires')";
 			if ($con->query($c) === TRUE){
 				$con_id = $con->insert_id;
-				$d = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','đang thuê','0')";
+				$d = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Đang Ở','0')";
 				mysqli_query($con,$d);
 			}
 		}

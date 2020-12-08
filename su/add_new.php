@@ -7,9 +7,8 @@
   <?php
   require_once('source/dbconnect.php');
   mysqli_set_charset($conn, 'UTF8');
-  $id = $_GET['id'];
-  $sql = "SELECT * FROM green_room
-          WHERE room_id='$id'";
+  //$id = $_GET['id'];
+  $sql = "SELECT * FROM green_room";
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result) > 0) {
@@ -54,11 +53,11 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Thêm khách trọ</h1>
+          <h1 class="h3 mb-2 text-gray-800"></h1>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Phòng <?php echo $rooms[0]['room_name']?></h6>
+              <h6 class="m-0 font-weight-bold text-primary">Thêm khách trọ</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -80,6 +79,17 @@
                                 <div class="form-group">
                                     <label for="cus-sdt" class="col-form-label">Số Điện Thoại:</label>
                                     <input  type="text" class="form-control" name="sdt">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cus-sdt" class="col-form-label">Chọn Phòng:</label>
+                                    <select name="room_id" class="col-form-label">
+                                      <?php 
+                                        foreach($rooms as $room){
+                                          ?>
+                                        <option value="<?php $room['room_id']?>"><?php echo $room['room_name']?></option>
+                                      <?php  }
+                                      ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -126,6 +136,7 @@
                 $ngaysinh=$_POST['birthday'];
                 $join=$_POST['join'];
                 $expires=$_POST['expires'];
+                $id=$_POST['room_id'];
                 $q->checknew($id,$user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
             }
         ?>

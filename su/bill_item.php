@@ -81,17 +81,15 @@
                         $price_w = number_format($room['price_water']);
                         $num_e = $room['electric_num_new'] - $room['electric_num_old'];
                         $num_w = $room['water_num_new'] - $room['water_num_old'];
-                        $date = date("d-m-Y", strtotime($room['contract_datetime']));
+                        //$date = date("05-m-Y", strtotime($room['contract_datetime']));
+                        $month = strtotime(date("d-m-Y", strtotime($room['contract_datetime'])) . " +1 month");
+                        $date = strftime("05-%m-%Y", $month);
                         ?>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label >Ngày vào ở:</label>
-                                    <input type="text" class="col-sm-3 form-control" placeholder="Ngày <?php echo $date;?>" readonly>
-                                </div>
-                                <div class="form-group">
                                     <label >Ngày thu:</label>
-                                    <input type="date" class="col-sm-3 form-control" name="date">
+                                    <input type="text" class="col-sm-3 form-control" value="<?php echo $date;?>" name="date" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label >Internet:</label>
@@ -109,11 +107,15 @@
                                     <div class="col-3 form-group">
                                         <label >Điện:</label>
                                     </div>
-                                    <div class="col-4 form-group">
+                                    <div class="col-3 form-group">
+                                        <label >Đơn giá:</label>
+                                        <input type="text" class="col-sm-6 form-control" value="<?php echo $room['price_electric'];?>" readonly>
+                                    </div>
+                                    <div class="col-3 form-group">
                                         <label >Số cũ:</label>
                                         <input type="number" class="col-sm-6 form-control" value="<?php echo $room['electric_num_new'];?>" name="e_old" readonly>
                                     </div>
-                                    <div class="col-4 form-group">
+                                    <div class="col-3 form-group">
                                         <label >Số mới:</label>
                                         <input type="number" class="col-sm-6 form-control" name="e_new">
                                     </div>
@@ -122,11 +124,15 @@
                                     <div class="col-3 form-group">
                                         <label >Nước:</label>
                                     </div>
-                                    <div class="col-4 form-group">
+                                    <div class="col-3 form-group">
+                                        <label >Đơn giá:</label>
+                                        <input type="text" class="col-sm-6 form-control" value="<?php echo $room['price_water'];?>" readonly>
+                                    </div>
+                                    <div class="col-3 form-group">
                                         <label >Số cũ:</label>
                                         <input type="number" class="col-sm-6 form-control" value="<?php echo $room['water_num_new'];?>" name="w_old" readonly>
                                     </div>
-                                    <div class="col-4 form-group">
+                                    <div class="col-3 form-group">
                                         <label >Số mới:</label>
                                         <input type="number" class="col-sm-6 form-control" name="w_new">
                                     </div>
@@ -134,10 +140,6 @@
                                 <div class="form-group">
                                     <label>Phí khác:</label>
                                     <input type="text" class="col-sm-3 form-control" placeholder="Phí phát sinh" name="incurred">
-                                </div>
-                                <div class="form-group">
-                                    <label >Tiền nợ:</label>
-                                    <input type="text" class="col-sm-3 form-control" placeholder="Tiền nợ tháng trước" name="dept">
                                 </div>
                                 <hr>
                                 <center><button type="submit" class="btn btn-primary" name="them">Tạo hóa đơn</button></center>
@@ -172,17 +174,15 @@
                 $w_price=$room['price_water'];
                 $incurred=$_POST['incurred'];
                 $date=$_POST['date'];
-                $dept=$_POST['dept'];
+
                 if($wifi=='0') $status = 0;
                   else $status = 1;
                 if($cap=='0') $status1 = 0;
                   else $status1 = 1;
                 if($incurred=='0') $status2 = 0;
                   else $status2 = 1;
-                if($dept=='0') $status3 = 0;
-                  else $status3 = 1;
                 $q->addrecord($id,$e_old,$w_old,$e_new,$w_new,$con);
-                $q->addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$dept,$status,$status1,$status2,$status3,$con);
+                $q->addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$status,$status1,$status2,$con);
             }
         ?>
 
