@@ -269,6 +269,7 @@ class contract
 			echo 'Không thành công. Lỗi' . $con->error;
 		}
 	}
+<<<<<<< HEAD
 	function huy($room_id,$con_id,$con)
 	{
 		$b = "UPDATE green_room SET room_status = '0'
@@ -280,11 +281,24 @@ class contract
 		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
 	}	
 	function dathu($bill_id,$con)
+=======
+	function huy($con_id,$con)
+>>>>>>> 791c937947c9744cc154c9b070cde90d0cc65482
 	{
 		$b = "UPDATE green_bill_log SET bill_id = '$bill_id', log_content = 'Đã Thu', log_status = '1'
 		WHERE log_status = '0'";
 		mysqli_query($con,$b);
 		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
+<<<<<<< HEAD
+=======
+	}	
+	function dathu($bill_id,$con)
+	{
+		$b = "UPDATE green_bill_log SET bill_id = '$bill_id', log_content = 'Đã Thu', log_status = '1'
+		WHERE log_status = '0'";
+		mysqli_query($con,$b);
+		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
+>>>>>>> 791c937947c9744cc154c9b070cde90d0cc65482
 	}
 }
 ?>
