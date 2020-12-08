@@ -3,7 +3,7 @@ class csdl
 {
 	function connect()
 	{
-		$con=mysqli_connect("localhost","vnappmob","123456");
+		$con=mysqli_connect("db","vnappmob","123456");
 		if(!$con)
 		{
 			echo 'Không kết nối csdl';
@@ -50,26 +50,18 @@ class taikhoan
 }
 class contract
 {
-	function giahan($con_id,$con)
+	function huy($con_id,$app_id,$date,$con)
 	{
-		$b = "UPDATE green_contract_log 
-		SET log_status = '1', log_content = 'Gia hạn hợp đồng'
-		WHERE contract_id = '$con_id'";
-		mysqli_query($con,$b);
-		echo "<script> swal('Oke','Bạn đã chọn gia hạn hợp đồng','success')</script>";
-	}
-	function huy($con_id,$con)
-	{
-		$a = "UPDATE green_contract_log 
-		SET log_status = '2', log_content = 'Kết thúc hợp đồng'
-		WHERE contract_id = '$con_id'";
+		$a = "INSERT INTO green_log(appoint_id,log_content,log_status,log_date) VALUES('$app_id','Kết Thúc Hợp Đồng','7','$date')";
 		mysqli_query($con,$a);
+		$b = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Kết Thúc Hợp Đồng','1')";
+		mysqli_query($con,$b);
 		echo "<script> swal('Oke','Bạn đã chọn kết thúc hợp đồng','success')</script>";
 	}
 }
 class customer
  {	
-	function checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
+	function checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con)
 	{		
 		$sql="SELECT * FROM green_customer WHERE customer_identity='$cmnd'";
 		$ketqua=mysqli_query($con,$sql);
@@ -92,26 +84,25 @@ class customer
 			}
 			else
 			{
-				$this->add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
+				$this->add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con);
 				echo "<script> swal('Oke!','Thêm bạn trọ thành công','success')</script>";
 			}
 		}
 		
 	}
-	function add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
+	function add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con)
 	{
 		$a="INSERT INTO green_customer(customer_name,customer_phone,customer_identity,customer_birthday,user_name,user_pass)
 		VALUES('$fullname','$sdt','$cmnd','$ngaysinh','','')";
-		$b="UPDATE green_room SET room_status='1', available_date='$expires'
-		WHERE room_id ='$room_id'";
-		mysqli_query($con,$b);
 		if ($con->query($a) === TRUE){
 			$cus_id = $con->insert_id;
 			$c="INSERT INTO green_contract(customer_id,room_id,contract_datetime,contract_expires) VALUES('$cus_id','$room_id','$join','$expires')";
 			if ($con->query($c) === TRUE){
 				$con_id = $con->insert_id;
-				$d = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','đang thuê','0')";
+				$d = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Đang Ở','0')";
 				mysqli_query($con,$d);
+				$e = "INSERT INTO green_contract_price(contract_id,price_electric,price_water,price_wifi,price_cap) VALUES('$con_id','$e_price','$w_price','$wifi','$cap')";
+				mysqli_query($con,$e);
 			}
 		}
 		else

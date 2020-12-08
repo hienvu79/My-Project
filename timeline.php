@@ -55,7 +55,7 @@ mysqli_close($conn);
     margin-bottom: 5px;
     font-weight: 500;
 }
-    .status1:after{background-color:#6c757d !important}
+    /* .status1:after{background-color:#6c757d !important} */
     .status2:after{background-color:#28a745 !important}
     .status3:after{background-color:#dc3545 !important}
     </style>
@@ -102,19 +102,16 @@ mysqli_close($conn);
                             <div class="timeline__items">
                             <?php 
                                 foreach($appointments as $row){
+                                    $date = date("d-m-Y - H:i:s", strtotime($row["log_date"]));
                             ?>
                                 <div class="timeline__item <?php 
-                                    if($row['log_status']==0||$row['log_status']==2||$row['log_status']==4)
-                                    { 
-                                        echo "status1";
+                                    if($row['log_status']==6){
+                                        echo "status3";
                                     }
-                                    if($row['log_status']==1||$row['log_status']==3||$row['log_status']==5){
-                                        echo "status2";
-                                    }
-                                    else {echo "status3";}
+                                    else {echo "status2";}
                                     ?>">
                                     <div class="timeline__content">
-                                    	<h2><?php echo $row["log_date"]; ?></h2>
+                                    	<h2><?php echo $date; ?></h2>
                                     	<p><?php echo $row["log_content"]; ?></p>
                                     </div>
                                 </div>

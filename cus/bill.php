@@ -10,12 +10,13 @@
   $id = $_SESSION['customer_id'];
   $sql = "SELECT * FROM green_bill t1 INNER JOIN green_bill_items t2 ON t1.bill_id = t2.bill_id
                                       INNER JOIN green_contract t3 ON t1.contract_id = t3.contract_id
+                                      INNER JOIN green_bill_log t4 ON t1.bill_id = t4.bill_id
                                       INNER JOIN (
                                         SELECT *
                                         FROM green_bill_date
                                         WHERE bill_datetime IN(
                                         SELECT MAX(bill_datetime) 
-                                        FROM green_bill_date GROUP BY contract_id)) t4 ON t1.bill_id = t4.bill_id
+                                        FROM green_bill_date GROUP BY contract_id)) t5 ON t1.bill_id = t5.bill_id
                                       WHERE t3.customer_id = '$id'
                                       ORDER BY t2.item_id";
     $result = mysqli_query($conn, $sql);
@@ -88,7 +89,7 @@
                       <th>STT</th>
                       <th>Các loại phí</th>
                       <th>Đơn giá</th>
-                      <th>Đã dùng</th>
+                      <th>Số lượng</th>
                       <th>Tổng</th>
                     </tr>
                   </thead>
@@ -131,7 +132,12 @@
                 $Total = array_sum($total); 
                 echo number_format($Total);
                 ?> đ</center></h3>
-                <?php }?>
+                <?php 
+                if($bills[0]['log_status']=='1'){
+                  echo "<center><h4>Đã đóng tiền.</h4></center>";
+                }
+                else echo "<center><h4>Chưa đóng tiền tháng này.</h4></center>";
+                }?>
               </div>
             </div>
           </div>

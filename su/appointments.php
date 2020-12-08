@@ -17,6 +17,7 @@
                               WHERE log_date IN(
                               SELECT MAX(log_date) 
                               FROM green_log GROUP BY appoint_id )) t4 ON t1.appoint_id = t4.appoint_id
+                              WHERE t4.log_status = '0'
                               ";
     $result = mysqli_query($conn, $sql);
     
@@ -86,7 +87,6 @@
                       }
                       else{
                         foreach($appoints as $appoint){  
-                          if($appoint['log_status']=="0" ){
                     ?>
                     <tr>
                       <td><?php echo $appoint['customer_name']?></td>
@@ -94,35 +94,33 @@
                       <td><?php echo $appoint['room_name']?></td>
                       <td><?php echo $appoint['appoint_date']?></td>
                       <td><?php echo $appoint['appoint_time']?></td>
-                      <td><form><center><button class="btn btn-success" formmethod="post" name="oke" type="submit" value="<?php echo $appoint['room_id']?>">Oke</button></center></form></td>
-                      <td><form><center><button class="btn btn-danger" formmethod="post" name="huy" type="submit" value="<?php echo $appoint['room_id']?>">Hủy</button></center></form></td>
+                      <td><form><center><button class="btn btn-success" formmethod="post" name="oke" type="submit" value="<?php echo $appoint['appoint_id']?>">Oke</button></center></form></td>
+                      <td><form><center><button class="btn btn-danger" formmethod="post" name="huy" type="submit" value="<?php echo $appoint['appoint_id']?>">Hủy</button></center></form></td>
                     </tr>
                       <?php 
-                          }
                         }
                       }
                   ?>
                   </tbody>
-                <?php 
-                if(!empty($appoint)){
-                    $room_id = $appoint['room_id'];
-                    $app_id = $appoint['appoint_id'];
-                    if(isset($_POST['oke']) && $cus_id = $appoint['customer_id'])
-                    {
-                      {  
-                        $con=$p->connect();
-                        $e->datlich($app_id,$con);
+                  <?php 
+                  if(!empty($appoint)){
+                      $app_id = $appoint['appoint_id'];
+                      if(isset($_POST['oke']) && isset($app_id))
+                      {
+                        {  
+                          $con=$p->connect();
+                          $e->datlich($app_id,$con);
+                        }
                       }
-                    }
-                    if(isset($_POST['huy']) && $cus_id = $appoint['customer_id'])
-                    {
-                      {  
-                        $con=$p->connect();
-                        $e->huylich($app_id,$con);
-                      } 
-                    }
-                }
-                else echo"";
+                      if(isset($_POST['huy']) && isset($app_id))
+                      {
+                        {  
+                          $con=$p->connect();
+                          $e->huylich($app_id,$con);
+                        } 
+                      }
+                  }
+                  else echo"";
                   ?>   
                 </table>
               </div>

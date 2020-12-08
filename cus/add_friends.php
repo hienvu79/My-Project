@@ -9,6 +9,7 @@
   mysqli_set_charset($conn, 'UTF8');
   $id = $_SESSION['customer_id'];
   $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id
+                                          INNER JOIN green_contract_price t3 ON t1.contract_id = t3.contract_id
           WHERE t1.customer_id = '$id'";
     $result = mysqli_query($conn, $sql);
     
@@ -58,7 +59,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Phòng <?php echo $rooms[0]['room_name']?></h6>
+              <h6 class="m-0 font-weight-bold text-primary">Phòng <?php if(!empty($rooms)){echo $rooms[0]['room_name'];} else echo"";?></h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -90,7 +91,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cus-date" class="col-form-label">Hạn hợp đồng:</label>
-                                    <input type="text" class="form-control" name="expires" value="<?php echo $rooms[0]['contract_expires']?>" readonly>
+                                    <input type="text" class="form-control" name="expires" value="<?php if(!empty($rooms)){echo $rooms[0]['contract_expires'];}else echo"";?>" readonly>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -117,7 +118,11 @@
                 $join=$_POST['join'];
                 $expires=$_POST['expires'];
                 $room_id=$rooms[0]['room_id'];
-                $q->checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
+                $e_price=$rooms[0]['price_electric'];
+                $w_price=$rooms[0]['price_water'];
+                $wifi=$rooms[0]['price_wifi'];
+                $cap=$rooms[0]['price_cap'];
+                $q->checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con);
             }
         ?>
 

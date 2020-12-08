@@ -10,6 +10,7 @@ mysqli_set_charset($conn, 'UTF8');
 $id = $_GET['id'];
 $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id 
                                         INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
+                                        LEFT JOIN green_contract_price t4 ON t1.contract_id = t4.contract_id
         WHERE t1.room_id = '$id'";
     $result = mysqli_query($conn, $sql);
   
@@ -48,7 +49,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
         <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">
-              Phòng <?php echo $rooms[0]['room_name']?></h6>
+              Phòng <?php echo $rooms[0]['room_name'];?></h6>
             </div>
           <!-- Content Row -->
         <script src="js/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
@@ -72,9 +73,9 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                     <h4><?php echo $room['customer_name']?></h4>
                                     <div class="button-list mt-4 mb-3">
                                         <?php 
-                                            if(!empty($room)){
+                                            if(empty($room['price_id'])){
                                              ?>   
-                                        <a type="button" class="btn btn-primary-rgba" href="input_num.php?id=<?php $con_id = $room['contract_id']; echo $con_id?>">
+                                        <a type="button" class="btn btn-primary-rgba" href="input_num.php?id=<?php $con_id = $room['room_id']; echo $con_id?>">
                                         <i class="feather icon-message-square mr-2"></i>Nhập giá trị hợp đồng</a>
                                         <?php    
                                             }

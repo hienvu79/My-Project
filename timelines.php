@@ -107,11 +107,12 @@ label {
                                 }
                                 else{
                                     foreach($appointments as $row){
+                                        $date = date("d-m-Y", strtotime($row["appoint_date"]));
                             ?>
                             	<div class="timeline__item">
                                     <div class="timeline__content">
                                     <h2>Phòng <?php echo $row["room_name"]; ?></h2>
-                                    	<p><?php echo $row["appoint_date"]; ?> lúc <?php echo $row["appoint_time"]; ?></p>
+                                    	<p>Hẹn ngày <?php echo $date; ?> lúc <?php echo $row["appoint_time"]; ?></p>
                                         <p><a href="timeline.php?id=<?php echo $row['room_id']?>">Xem chi tiết</a></p>
                                     </div>
                                 </div>

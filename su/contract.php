@@ -12,7 +12,6 @@
     FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id
                            INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
                            INNER JOIN green_contract_log t4 ON t1.contract_id = t4.contract_id 
-                           GROUP BY t1.room_id
                            ";
     $result = mysqli_query($conn, $sql);
     
@@ -76,12 +75,9 @@
                   
                   <tbody>
                     <?php 
-                      if(empty($rows)){
-                        echo "<tr><h3>Không có dữ liệu</h3></tr>";
-                      }
-                      else{
+                      if(!empty($rows)){
                         foreach($rows as $row){  
-                          if($row['log_status']==1||$row['log_status']==2){
+                          if($row['log_status']==1){
                     ?>
                     <tr>
                       <td><?php echo $row['customer_name']?></td>
@@ -89,40 +85,24 @@
                       <td><?php echo $row['contract_datetime']?></td>
                       <td><?php echo $row['contract_expires']?></td>
                       <td><?php echo $row['log_content']?></td>
-                      <td>
-                        <?php 
-                          if($row['log_status']==1){
-                        ?>
-                        <form><center><button class="btn btn-primary" formmethod="post" name="oke" type="submit" value="<?php echo $row['customer_id']?>">Oke</button></center></form>
-                        <?php 
-                          }
-                          else{
-                        ?>
-                      <form><center><button class="btn btn-danger" formmethod="post" name="huy" type="submit" value="<?php echo $row['customer_id']?>">Oke</button></center></form>
-                      <?php  }
-                      ?>
-                      </td>
+                      <td><form><center><button class="btn btn-primary" formmethod="post" name="huy" type="submit" value="<?php echo $row['room_id']?>">Oke</button></center></form></td>
                     </tr>
                       <?php 
                           }
                         }
                       }
+                      echo "";
                   ?>
                   </tbody>
                 </table>
                 <?php 
                 if(!empty($row)){
-                  $con_id  = $row['contract_id'];
-                  if(isset($_POST['oke']) && $cus_id = $row['customer_id']){
+                  $room_id  = $row['room_id'];
+                  $con_id   = $row['contract_id'];
+                  if(isset($_POST['huy']) && isset($room_id)){
                     {  
                       $con=$p->connect();
-                      $q->giahan($con_id,$con);
-                    }   
-                  }
-                  if(isset($_POST['huy']) && $cus_id = $row['customer_id']){
-                    {  
-                      $con=$p->connect();
-                      $q->huy($con_id,$con);
+                      $q->huy($room_id,$con_id,$con);
                     }   
                   }
                 }

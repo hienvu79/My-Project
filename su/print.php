@@ -15,7 +15,7 @@
                                         WHERE bill_datetime IN(
                                         SELECT MAX(bill_datetime) 
                                         FROM green_bill_date GROUP BY contract_id)) t3 ON t1.bill_id = t3.bill_id
-                                      WHERE t1.contract_id = '$id'";
+                                      WHERE t1.bill_id = '$id'";
     $result = mysqli_query($conn, $sql);
     
     if (mysqli_num_rows($result) > 0) {
@@ -56,7 +56,7 @@
       <th>STT</th>
       <th>Các loại phí</th>
       <th>Đơn giá</th>
-      <th>Đã dùng</th>
+      <th>Số lượng</th>
       <th>Thành tiền</th>
     </tr>
     <?php
