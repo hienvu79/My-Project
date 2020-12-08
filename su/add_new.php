@@ -7,7 +7,6 @@
   <?php
   require_once('source/dbconnect.php');
   mysqli_set_charset($conn, 'UTF8');
-  //$id = $_GET['id'];
   $sql = "SELECT * FROM green_room";
     $result = mysqli_query($conn, $sql);
     
@@ -81,7 +80,7 @@
                                     <input  type="text" class="form-control" name="sdt">
                                 </div>
                                 <div class="form-group">
-                                    <label for="cus-sdt" class="col-form-label">Chọn Phòng:</label>
+                                    <label for="cus-room" class="col-form-label">Chọn Phòng:</label>
                                     <select name="room_id" class="col-form-label">
                                       <?php 
                                         foreach($rooms as $room){

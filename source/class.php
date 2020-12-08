@@ -121,7 +121,7 @@ class appoint
 		$a="insert into green_appointment(appoint_date,appoint_time ,customer_id,room_id) values ('$date','$time','$cus_id','$room_id')";
 		if ($con->query($a) === TRUE){
 			$last_id = $con->insert_id;
-			$b="insert into green_log(appoint_id,log_content,log_status) values('$last_id','Chờ Xác Nhận','0')";
+			$b="insert into green_log(appoint_id,log_content,log_status) values('$last_id','Đã Đặt Lịch','0')";
 			mysqli_query($con,$b);
 		}
 		else{

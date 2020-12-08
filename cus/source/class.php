@@ -61,7 +61,7 @@ class contract
 }
 class customer
  {	
-	function checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
+	function checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con)
 	{		
 		$sql="SELECT * FROM green_customer WHERE customer_identity='$cmnd'";
 		$ketqua=mysqli_query($con,$sql);
@@ -84,19 +84,16 @@ class customer
 			}
 			else
 			{
-				$this->add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
+				$this->add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con);
 				echo "<script> swal('Oke!','Thêm bạn trọ thành công','success')</script>";
 			}
 		}
 		
 	}
-	function add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
+	function add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con)
 	{
 		$a="INSERT INTO green_customer(customer_name,customer_phone,customer_identity,customer_birthday,user_name,user_pass)
 		VALUES('$fullname','$sdt','$cmnd','$ngaysinh','','')";
-		$b="UPDATE green_room SET room_status='1', available_date='$expires'
-		WHERE room_id ='$room_id'";
-		mysqli_query($con,$b);
 		if ($con->query($a) === TRUE){
 			$cus_id = $con->insert_id;
 			$c="INSERT INTO green_contract(customer_id,room_id,contract_datetime,contract_expires) VALUES('$cus_id','$room_id','$join','$expires')";
@@ -104,6 +101,8 @@ class customer
 				$con_id = $con->insert_id;
 				$d = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Đang Ở','0')";
 				mysqli_query($con,$d);
+				$e = "INSERT INTO green_contract_price(contract_id,price_electric,price_water,price_wifi,price_cap) VALUES('$con_id','$e_price','$w_price','$wifi','$cap')";
+				mysqli_query($con,$e);
 			}
 		}
 		else

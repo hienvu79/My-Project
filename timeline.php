@@ -55,7 +55,7 @@ mysqli_close($conn);
     margin-bottom: 5px;
     font-weight: 500;
 }
-    .status1:after{background-color:#6c757d !important}
+    /* .status1:after{background-color:#6c757d !important} */
     .status2:after{background-color:#28a745 !important}
     .status3:after{background-color:#dc3545 !important}
     </style>
@@ -105,10 +105,6 @@ mysqli_close($conn);
                                     $date = date("d-m-Y - H:i:s", strtotime($row["log_date"]));
                             ?>
                                 <div class="timeline__item <?php 
-                                    if($row['log_status']==0)
-                                    { 
-                                        echo "status1";
-                                    }
                                     if($row['log_status']==6){
                                         echo "status3";
                                     }

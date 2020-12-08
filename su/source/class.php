@@ -181,11 +181,8 @@ class appoint
 {
 	function datlich($app_id,$con)
 	{
-		$a = "UPDATE green_log SET appoint_id = '$app_id',log_content = 'Đã Xác Nhận', log_status = '1' 
-		WHERE log_status = '0'";
+		$a = "INSERT INTO green_log(appoint_id,log_content,log_status) VALUES('$app_id','Đặt Lịch Thành Công','2')";
 		mysqli_query($con,$a);
-		$b = "INSERT INTO green_log(appoint_id,log_content,log_status) VALUES('$app_id','Đặt Lịch Thành Công','2')";
-		mysqli_query($con,$b);
 		echo "<script> swal('Oke!','Xác nhận lịch thành công','success')</script>";
 	}
 	function huylich($app_id,$con)
@@ -264,6 +261,8 @@ class contract
 			mysqli_query($con,$f);
 			$h = "INSERT INTO green_bill_date(bill_id,contract_id) VALUES('$bill_id','$id')";
 			mysqli_query($con,$h);
+			$g = "INSERT INTO green_bill_log(bill_id,log_content,log_status) VALUES('$bill_id','Chưa Thu','0')";
+			mysqli_query($con,$g);
 			echo "<script> swal('Oke!','Thêm hóa đơn thành công','success')</script>";
 		}
 		else{
@@ -277,5 +276,12 @@ class contract
 		mysqli_query($con,$b);
 		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
 	}	
+	function dathu($bill_id,$con)
+	{
+		$b = "UPDATE green_bill_log SET bill_id = '$bill_id', log_content = 'Đã Thu', log_status = '1'
+		WHERE log_status = '0'";
+		mysqli_query($con,$b);
+		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
+	}
 }
 ?>
