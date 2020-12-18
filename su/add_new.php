@@ -81,7 +81,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cus-room" class="col-form-label">Chọn Phòng:</label>
-                                    <select name="room_id" class="col-form-label">
+                                    <select name="room" class="col-form-label">
+                                      <option value="">Chọn phòng</option>
                                       <?php 
                                         foreach($rooms as $room){
                                           ?>
@@ -135,7 +136,7 @@
                 $ngaysinh=$_POST['birthday'];
                 $join=$_POST['join'];
                 $expires=$_POST['expires'];
-                $id=$_POST['room_id'];
+                $id=$_POST['room'];
                 $q->checknew($id,$user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
             }
         ?>

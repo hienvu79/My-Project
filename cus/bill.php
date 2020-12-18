@@ -11,12 +11,6 @@
   $sql = "SELECT * FROM green_bill t1 INNER JOIN green_bill_items t2 ON t1.bill_id = t2.bill_id
                                       INNER JOIN green_contract t3 ON t1.contract_id = t3.contract_id
                                       INNER JOIN green_bill_log t4 ON t1.bill_id = t4.bill_id
-                                      INNER JOIN (
-                                        SELECT *
-                                        FROM green_bill_date
-                                        WHERE bill_datetime IN(
-                                        SELECT MAX(bill_datetime) 
-                                        FROM green_bill_date GROUP BY contract_id)) t5 ON t1.bill_id = t5.bill_id
                                       WHERE t3.customer_id = '$id'
                                       ORDER BY t2.item_id";
     $result = mysqli_query($conn, $sql);
@@ -40,7 +34,7 @@
   ?>
   <head>
     <?php require_once 'block/block_head.php'?>
-    <title>Hóa Đơn</title>
+    <title>Hóa Đơn Tháng</title>
   </head>
   <style>
     .btn-primary{margin-left:40px;}

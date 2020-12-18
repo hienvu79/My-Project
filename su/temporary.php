@@ -17,6 +17,7 @@
                               WHERE log_date IN(
                               SELECT MAX(log_date) 
                               FROM green_log GROUP BY appoint_id )) t4 ON t1.appoint_id = t4.appoint_id
+                              WHERE t4.log_status = '5'
                               ";
     $result = mysqli_query($conn, $sql);
     
@@ -86,7 +87,6 @@
                       }
                       else{
                         foreach($appoints as $appoint){  
-                          if($appoint['log_status']=="4"){
                     ?>
                     <tr>
                       <td><?php echo $appoint['customer_name']?></td>
@@ -94,8 +94,7 @@
                       <td><?php echo $appoint['room_name']?></td>
                       <td><form><button class="btn btn-primary" formmethod="post" name="oke" type="submit" value="<?php echo $appoint['room_id']?>">Oke</button></form></td>
                     </tr>
-                      <?php 
-                          }
+                      <?php
                         }
                       }
                   ?>

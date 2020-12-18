@@ -73,6 +73,7 @@ $menus = [
             <a class="collapse-item" href="add_new.php">Thêm Khách Thuê</a>
             <a class="collapse-item" href="customers.php">Danh Sách Khách Thuê</a>
             <a class="collapse-item" href="temporary.php">Đăng Ký Tạm Trú</a>
+            <a class="collapse-item" href="pay_deposit.php">Trả Cọc</a>
           </div>
         </div>
       </li>

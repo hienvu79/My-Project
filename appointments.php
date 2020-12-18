@@ -10,9 +10,8 @@
   mysqli_set_charset($conn, 'UTF8'); 
   $id = $_GET['room_id'];
   $cus_id = $_SESSION['customer_id'];
-  $sql = "SELECT *
-  FROM green_room,green_customer
-  WHERE room_id = '$id' AND customer_id = '$cus_id';";
+  $sql = "SELECT * FROM green_customer,green_room
+  WHERE room_id = '$id' AND customer_id = '$cus_id'";
   $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
@@ -85,14 +84,13 @@ mysqli_close($conn);
                                     <form method="post">
                                         <div class="col-md-12">
                                         <h2>Đặt Lịch Hẹn</h2>
-                                        <span class="badge badge-success">Phòng <?php echo $room['room_name']?></span>
                                             <div class="form-group">
                                                 <label for="user-name" class="col-form-label">Khách hàng:</label>
                                                 <input type="text" class="form-control" name="name" value="<?php echo $room['customer_name']?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="user-pass" class="col-form-label">Chọn ngày:</label>
-                                                <input type="date" class="form-control" name="date" id="day" onblur="kiemtrangay();">
+                                                <input type="date" class="form-control" name="date" id="txtdate" onblur="kiemtrangay();">
                                                 <span id="tbdate" class="text-danger">(*)</span>
                                             </div>
                                             <div class="form-group">
@@ -162,20 +160,21 @@ mysqli_close($conn);
     });
     </script>
     <script>
-            function kiemtrangay(){
-                var today = new Date();
-                today.setDate(today.getDate() + 1);
-                var day = document.getElementById("day").value;
-                var tbdate = document.getElementById("tbdate");
-                if(day < today)
-                {
-                    tbdate.innerHTML = "loi";
-                    return false;
-                }
-                tbdate.innerHTML = "";
-                return true;
+        function kiemtrangay(){
+            var today = new Date();
+            today.setDate(today.getDate() + 1);
+            var day = new Date(document.getElementById("txtdate").value); 
+
+            var tbdate = document.getElementById("tbdate");
+            if(day < today)
+            {
+                tbdate.innerHTML = "Ngày hẹn phải sau ngày hiện tại 2 ngày";
+                return false;
             }
-        </script>
+            tbdate.innerHTML = "";
+            return true;
+        }
+    </script>
    <footer>
         <?php require_once 'block/block_footer.php'?> 
    </footer>

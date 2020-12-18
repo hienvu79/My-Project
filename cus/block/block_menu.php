@@ -8,7 +8,7 @@ $menus = [
   [
     'name'   => 'HÓA ĐƠN',
     'icon'   => 'fa fa-credit-card',
-    'href'   => 'bill.php'
+    'href'   => 'list.php'
   ],
   [
     'name'   => 'THÊM BẠN',

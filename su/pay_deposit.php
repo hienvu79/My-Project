@@ -17,7 +17,8 @@
                               WHERE log_date IN(
                               SELECT MAX(log_date) 
                               FROM green_log GROUP BY appoint_id )) t4 ON t1.appoint_id = t4.appoint_id
-                              WHERE t4.log_status = '1'
+                              INNER JOIN green_contract t5 ON t1.customer_id = t5.customer_id
+                              WHERE t4.log_status = '9'
                               ";
     $result = mysqli_query($conn, $sql);
     
@@ -37,12 +38,15 @@
   <?php 
   include ("source/class.php");
   $p = new csdl();
-  $e = new appoint();
+  $e = new contract();
   ?>
   <head>
     <?php require_once 'block/block_head.php'?>
-    <title>Đặt Cọc</title>
+    <title>Trả Tiền Cọc</title>
   </head>
+  <style>
+    .btn-primary{margin-left:40px;}
+  </style>
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -59,22 +63,21 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Danh sách giao dịch</h1>
+          <h1 class="h3 mb-2 text-gray-800">Danh sách phòng chưa trả tiền cọc</h1>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Giao Dịch</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Trả Phòng</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Tên khách hàng</th>
+                      <th>Tên khách trọ</th>
                       <th>Số điện thoại</th>
-                      <th>Số phòng</th>
-                      <th><center>Xác nhận đặt cọc</center></th>
-                      <th><center>Xác nhận hủy phòng</center></th>
+                      <th>Số Phòng</th>
+                      <th>Xác nhận đã trả tiền cọc</th>
                     </tr>
                   </thead>
                   
@@ -90,33 +93,26 @@
                       <td><?php echo $appoint['customer_name']?></td>
                       <td><?php echo $appoint['customer_phone']?></td>
                       <td><?php echo $appoint['room_name']?></td>
-                      <td><center><form><button class="btn btn-success" formmethod="post" name="oke" type="submit" value="<?php echo $appoint['appoint_id']?>">Oke</button></form></center></td>
-                      <td><center><form><button class="btn btn-danger" formmethod="post" name="huy" type="submit" value="<?php echo $appoint['appoint_id']?>">Huỷ</button></form></center></td>
+                      <td><form><button class="btn btn-primary" formmethod="post" name="oke" type="submit" value="<?php echo $appoint['room_id']?>">Oke</button></form></td>
                     </tr>
-                      <?php 
+                      <?php
                         }
                       }
                   ?>
                   </tbody>
-                  <?php 
-                  if(!empty($appoint)){
-                      $app_id = $appoint['appoint_id'];
-                      if(isset($_POST['oke']) && isset($app_id))
-                      {
-                        {  
-                          $con=$p->connect();
-                          $e->datcoc($app_id,$con);
-                        }
-                      }
-                      if(isset($_POST['huy']) && isset($app_id))
-                      {
-                        {  
-                          $con=$p->connect();
-                          $e->huycoc($app_id,$con);
-                        } 
-                      }
+                <?php 
+                if(!empty($appoint)){
+                  $room_id = $appoint['room_id'];
+                  $app_id = $appoint['appoint_id'];
+                  $con_id = $appoint['contract_id'];
+                  if(isset($_POST['oke']) && $cus_id = $appoint['customer_id']){
+                    {  
+                      $con=$p->connect();
+                      $e->tracoc($app_id,$room_id,$con_id,$con);
+                    }   
                   }
-                  else echo"";
+                }
+                else echo"";
                   ?>   
                 </table>
               </div>

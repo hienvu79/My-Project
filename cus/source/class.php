@@ -3,7 +3,7 @@ class csdl
 {
 	function connect()
 	{
-		$con=mysqli_connect("db","vnappmob","123456");
+		$con=mysqli_connect("localhost","vnappmob","123456");
 		if(!$con)
 		{
 			echo 'Không kết nối csdl';
@@ -52,10 +52,12 @@ class contract
 {
 	function huy($con_id,$app_id,$date,$con)
 	{
-		$a = "INSERT INTO green_log(appoint_id,log_content,log_status,log_date) VALUES('$app_id','Kết Thúc Hợp Đồng','7','$date')";
+		$a = "INSERT INTO green_log(appoint_id,log_content,log_status) VALUES('$app_id','Trả Phòng<br>Chờ Xác Nhận','8')";
 		mysqli_query($con,$a);
-		$b = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Kết Thúc Hợp Đồng','1')";
+		$b = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Trả Phòng','1')";
 		mysqli_query($con,$b);
+		$c = "UPDATE green_log SET log_status = '2' WHERE appoint_id = '$app_id' AND log_status ='7'";
+		mysqli_query($con,$c);
 		echo "<script> swal('Oke','Bạn đã chọn kết thúc hợp đồng','success')</script>";
 	}
 }

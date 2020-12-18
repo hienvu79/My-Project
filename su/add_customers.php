@@ -11,8 +11,7 @@
   $sql = "SELECT * FROM green_appointment t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id
                                              INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
                                              INNER JOIN green_log t4 ON t1.appoint_id = t4.appoint_id 
-                                             WHERE t4.log_status = '3'
-                                             "
+                                             WHERE t4.log_status = '3' AND t1.room_id ='$id'"
                                             ;
     
     $result = mysqli_query($conn, $sql);
@@ -84,16 +83,6 @@
                                 <label class="col-form-label">ID khách trọ:</label>
                                 <input type="text" class="form-control" id="cus_id" name="cus_id" readonly/>   
                               </div>
-                              <!-- <div class="form-group">
-                                <label class="col-form-label">Số phòng:</label>
-                                <select id="select1" name="room_id" class="form-control" onchange="chonphong()">
-                                    <option value="">Chọn phòng</option>
-                                    <?php foreach($customers as $cus){
-                                      ?>
-                                    <option value="<?php echo $cus['room_id']?>"><?php echo $cus['room_name']?></option>
-                                      <?php }?>
-                                </select>
-                              </div> -->
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
@@ -104,10 +93,6 @@
                                   <label for="cus-date" class="col-form-label">Ngày kết thúc:</label>
                                   <input type="date" class="form-control" name="expires">
                               </div>
-                              <!-- <div class="form-group">
-                                <label class="col-form-label">ID phòng:</label>
-                                <input type="text" class="form-control" id="room_id" name="room_id" value="<?php echo $id?>" readonly/>   
-                              </div> -->
                             </div>
                             <div class="col-md-12">
                                 <center><button class="btn btn-primary" formmethod="post" type="submit" name="them">Thêm</button></center>

@@ -55,7 +55,7 @@ mysqli_close($conn);
     margin-bottom: 5px;
     font-weight: 500;
 }
-    /* .status1:after{background-color:#6c757d !important} */
+    .status1:after{background-color:#6c757d !important}
     .status2:after{background-color:#28a745 !important}
     .status3:after{background-color:#dc3545 !important}
     </style>
@@ -68,7 +68,7 @@ mysqli_close($conn);
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
                     <strong>Hotel</b>
-                </div>
+                </div>  
             </div>
         </div>
     </div> -->
@@ -105,14 +105,18 @@ mysqli_close($conn);
                                     $date = date("d-m-Y - H:i:s", strtotime($row["log_date"]));
                             ?>
                                 <div class="timeline__item <?php 
-                                    if($row['log_status']==6){
+                                    if($row['log_status']==2){
+                                        echo "status1";
+                                    }
+                                    else if($row['log_status']==4||$row['log_status']==6)
+                                    {
                                         echo "status3";
                                     }
-                                    else {echo "status2";}
+                                    else echo "status2";
                                     ?>">
                                     <div class="timeline__content">
                                     	<h2><?php echo $date; ?></h2>
-                                    	<p><?php echo $row["log_content"]; ?></p>
+                                        <p><?php echo $row["log_content"];?></p>
                                     </div>
                                 </div>
                                 <?php

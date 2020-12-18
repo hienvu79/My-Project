@@ -18,7 +18,8 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                             SELECT MAX(log_date) 
                                             FROM green_contract_log GROUP BY contract_id)) 
                                         t5 ON t1.contract_id = t5.contract_id
-        WHERE t1.customer_id  = '$id'";
+        WHERE t1.customer_id  = '$id'
+        GROUP BY t1.customer_id ";
     $result = mysqli_query($conn, $sql);
   
   if (mysqli_num_rows($result) > 0) {
