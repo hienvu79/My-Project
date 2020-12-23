@@ -1,14 +1,9 @@
 <?php
 $menus = [
-  [
-    'name'   => 'HỢP ĐỒNG',
-    'icon'   => 'fas fa-handshake',
-    'href'   => 'contract.php'
-  ],
   // [
-  //   'name'   => 'HÓA ĐƠN',
-  //   'icon'   => 'fa fa-credit-card',
-  //   'href'   => 'bill.php'
+  //   'name'   => 'HỢP ĐỒNG',
+  //   'icon'   => 'fas fa-handshake',
+  //   'href'   => 'contract.php'
   // ],
   [
     'name'   => 'PHIẾU CHI',
@@ -58,6 +53,19 @@ $menus = [
             <h6 class="collapse-header">Bills:</h6>
             <a class="collapse-item" href="bill.php">Tạo Hóa Đơn</a>
             <a class="collapse-item" href="list-bill.php">Danh Sách Hóa Đơn</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-handshake"></i>
+          <span>HỢP ĐỒNG</span>
+        </a>
+        <div id="collapsePage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Hợp đồng:</h6>
+            <a class="collapse-item" href="contract.php">Tình trạng</a>
+            <a class="collapse-item" href="register.html">Chỉnh sửa</a>
           </div>
         </div>
       </li>

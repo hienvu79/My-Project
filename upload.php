@@ -35,7 +35,7 @@ $(document).ready(function(){
         <input name='avatar[]' type='file' />
     </div>
     
-    <input name="submit" type="submit" value="Đăng kí" />
+    <input name="submit" type="submit" value="Thêm" />
 
 </form>
 <?php require_once 'loadhinh.php';?>
