@@ -58,7 +58,7 @@ $result = mysqli_query($conn, $sql);
                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Thêm Phòng</button>
                     </div>
                     <br>
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Tên Phòng</th>
@@ -72,6 +72,7 @@ $result = mysqli_query($conn, $sql);
                             </tr>
                         </thead>
                         <tbody id="load">
+
                         </tbody>
                     </table>
                 </div>
@@ -87,7 +88,7 @@ $result = mysqli_query($conn, $sql);
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title">Thêm Phòng</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -123,23 +124,39 @@ $result = mysqli_query($conn, $sql);
         </div>
     </div>
 
-
-
     <script type="text/javascript">
-    $(document).ready(function(){
-        function fetch_data(){
+    function fetch_data(){
             $.ajax({
                 url: "action.php",
                 method: "POST",
                 success:function(data){
-                    $('#load').html(data);
+                   
+                    var load_html = '';
+                    for(var i=0;i<data.length;i++){
+                        load_html += '<tr>\
+                            <td class="ten" data-id1='+data[i]['room_id']+' contenteditable>'+data[i]['room_name']+'</td>\
+                            <td class="gia" data-id2='+data[i]['room_id']+' contenteditable>'+data[i]['room_price']+'</td>\
+                            <td class="dientich" data-id3='+data[i]['room_id']+' contenteditable>'+data[i]['room_acreage']+'</td>\
+                            <td class="mota" data-id4='+data[i]['room_id']+' contenteditable>'+data[i]['room_detail']+'</td>\
+                            <td class="tienich" data-id5='+data[i]['room_id']+' contenteditable>'+data[i]['room_description']+'</td>\
+                            <td class="status" data-id6='+data[i]['room_id']+' contenteditable>'+data[i]['room_status']+'</td>\
+                            <td class="khuvuc" data-id7='+data[i]['room_id']+' contenteditable>'+data[i]['zone_id']+'</td>\
+                            <td><button data-id_xoa="'+data[i]['room_id']+'" class="btn btn-sm btn-danger del_data">\
+                            <i class="fa fa-trash-o" aria-hidden="true"></i></button>\
+                            </td>\
+                        </tr>';
+                    } 
+                    $('#load').html(load_html);
                 }
             }); 
         }
+    
+    $(document).ready(function(){
         fetch_data();
         //Delete dữ liệu
         $(document).on('click','.del_data ',function(){
             var room_id = $(this).data('id_xoa');
+            if(confirm('Bạn có muốn xóa không ?')){
             $.ajax({
                 url: "action.php",
                 method: "POST",
@@ -148,16 +165,16 @@ $result = mysqli_query($conn, $sql);
                     alert('Xóa dữ liệu thành công.');
                     fetch_data();
                 }
-            });
-        });
-        //Edit dữ liệu
+            });}
+        });   
+       // Edit dữ liệu
         function edit_data(id,text,column_name){
             $.ajax({
                 url: "action.php",
                 method: "POST",
                 data:{id:id,text:text,column_name},
                 success:function(data){
-                    alert('Sửa dữ liệu thành công.');
+                    //alert('Sửa dữ liệu thành công.');
                     fetch_data();
                 }
             });
@@ -217,7 +234,7 @@ $result = mysqli_query($conn, $sql);
                     data:{ten:ten,gia:gia,dientich:dientich,mota:mota,tienich:tienich,khuvuc:khuvuc},
                     success:function(data){
                         alert('Thêm dữ liệu thành công.');
-                        $('#insert')[0].reset();
+                        $('#myModal').modal('hide');
                         fetch_data();
                     }
                 });
@@ -225,7 +242,7 @@ $result = mysqli_query($conn, $sql);
         });
     });
     </script>
-      
+   
 
   <?php require_once 'block/block_footer.php'; ?>
 

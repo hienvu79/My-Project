@@ -59,6 +59,7 @@
                       <?php 
                       if(empty($bills)){ 
                         echo "<tr><h3>Chưa tạo hóa đơn phòng này.</h3></tr><br>";
+                        echo "<h4><a class='badge badge-primary' href='bill_item.php?id=$id'>Tạo hóa đơn</a></h4>";
                     }else{ 
                       ?>
                     <tr>

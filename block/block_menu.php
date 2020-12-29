@@ -11,6 +11,7 @@ $p = new csdl();
 $q = new taikhoan();
 $e = new appoint();
 ?>
+
     <!-- Header Start -->
     <div class="header-area header-sticky">
             <div class="main-header ">
@@ -22,17 +23,18 @@ $e = new appoint();
                                <a href="index.php"><img src="assets/img/logo/logo.png" alt=""></a>
                             </div>
                         </div>
-                    <div class="col-xl-8 col-lg-8">
+                    
+                        <?php 
+                            if(isset($_SESSION['user']))
+                            {
+                                ?>
+                        <div class="col-xl-10 col-lg-10">
                             <!-- main-menu -->
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">                                                                                                                                     
                                         <li><a href="index.php">Trang Chủ</a></li>
                                         <li><a href="rooms.php">Danh Sách Phòng</a><li>
-                                <?php 
-                                    if(isset($_SESSION['user']))
-                                    {
-                                        ?>
                                         <li><a href="timelines.php">Lịch Hẹn</a></li>
                                         <li><a href="../green-light/cus">Quản Lý</a></li>
                                         <li><a href="#">Xin Chào,<?php echo $_SESSION['user'];?></a></li>
@@ -41,21 +43,31 @@ $e = new appoint();
                                     }
                                     else
                                     {
-                                        echo"
-                                        <li><a href='login.php'>Đăng nhập</a></li>
-                                        ";
+                                        ?>
+                                        <div class="col-xl-8 col-lg-8">
+                                             <!-- main-menu -->
+                                            <div class="main-menu f-right d-none d-lg-block">
+                                                <nav>
+                                                    <ul id="navigation">                                                                                                                                     
+                                                        <li><a href="index.php">Trang Chủ</a></li>
+                                                        <li><a href="rooms.php">Danh Sách Phòng</a><li>
+                                                        <li><a href="login.php">Đăng Nhập</a></li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>         
+                                        <div class="col-xl-2 col-lg-2">
+                                            <div class="header-btn">
+                                                <a href="#" class="btn btn1 d-none d-lg-block" data-toggle="modal" data-target="#exampleModalCenter">Đăng Ký Ngay</a>
+                                            </div>
+                                        </div>
+                                        <?php
                                     }
                                     ?>
                                     </ul>
                                 </nav>
                             </div>
-                        </div>           
-                        <div class="col-xl-2 col-lg-2">
-                            <div class="header-btn">
-                                <a href="#" class="btn btn1 d-none d-lg-block" data-toggle="modal" data-target="#exampleModalCenter">Đăng Ký Ngay</a>
-                            </div>
-                        </div>
-
+                        </div>         
                         <!-- Mobile Menu -->
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>

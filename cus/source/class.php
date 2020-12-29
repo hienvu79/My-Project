@@ -22,7 +22,8 @@ class taikhoan
 	function login($user,$pass,$con)
 	{
 		$pass_md5=md5($pass);
-		$sql="SELECT * FROM green_customer WHERE user_name = '$user';";
+		$sql="SELECT * FROM green_customer t1 INNER JOIN green_contract t2 ON t1.customer_id = t2.customer_id 
+		WHERE t1.user_name = '$user';";
 		$ketqua=mysqli_query($con,$sql);
 		$total_row = mysqli_num_rows($ketqua);
 		if($total_row > 0)
@@ -54,10 +55,12 @@ class contract
 	{
 		$a = "INSERT INTO green_log(appoint_id,log_content,log_status) VALUES('$app_id','Trả Phòng<br>Chờ Xác Nhận','8')";
 		mysqli_query($con,$a);
-		$b = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Trả Phòng','1')";
+		$b = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Kết Thúc Hợp Đồng','1')";
 		mysqli_query($con,$b);
-		$c = "UPDATE green_log SET log_status = '2' WHERE appoint_id = '$app_id' AND log_status ='7'";
+		$c = "UPDATE green_log SET log_status = '2' WHERE appoint_id = '$app_id' AND log_status ='5'";
 		mysqli_query($con,$c);
+		$d = "UPDATE green_log SET log_status = '2' WHERE appoint_id = '$app_id' AND log_status ='7'";
+		mysqli_query($con,$d);
 		echo "<script> swal('Oke','Bạn đã chọn kết thúc hợp đồng','success')</script>";
 	}
 }

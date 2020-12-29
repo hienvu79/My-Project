@@ -31,11 +31,12 @@ mysqli_close($conn);
     <head>
         <title>Đặt Lịch Hẹn</title>
         <?php require_once 'block/block_head.php';?>
+        
         <script src="js/jquery.js"></script>
         <script src="js/timeline.min.js"></script>
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/timeline.min.css" />
-        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    </head>
     <style>
     .btn{

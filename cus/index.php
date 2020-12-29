@@ -10,7 +10,7 @@ mysqli_set_charset($conn, 'UTF8');
 $id = $_SESSION['customer_id'];
 $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id 
                                         INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
-                                        INNER JOIN green_appointment t4 ON t1.customer_id = t4.customer_id
+                                        LEFT JOIN green_appointment t4 ON t1.customer_id = t4.customer_id
                                         INNER JOIN (
                                             SELECT *
                                             FROM green_contract_log 
@@ -51,7 +51,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
 
   <!-- Page Wrapper -->
   <div id="wrapper">
-  <?php require_once 'block/block_menu.php';  ?>
+  <?php require_once 'block/block_menu.php';?>
     <div class="container-fluid">
     <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -66,18 +66,19 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
           <!-- Content Row -->
         <script src="js/feather.min.js" integrity="sha256-xHkYry2yRjy99N8axsS5UL/xLHghksrFOGKm9HvFZIs=" crossorigin="anonymous"></script>
         <div class="container">
+        <br>
+            <?php 
+                if(empty($rooms)){
+                    echo"<h4>Bạn chưa trở thành khách trọ.</h4>";
+                }
+                else{
+                foreach($rooms as $room){
+                    $birth = date("d-m-Y", strtotime($room['customer_birthday']));
+                    $date = date("d-m-Y", strtotime($room['contract_datetime']));
+                    $expires = date("d-m-Y", strtotime($room['contract_expires']));
+            ?>
             <div class="row">
             <!-- Start col -->
-                <?php 
-                    if(empty($rooms)){
-                        echo"";
-                    }
-                    else{
-                    foreach($rooms as $room){
-                        $birth = date("d-m-Y", strtotime($room['customer_birthday']));
-                        $date = date("d-m-Y", strtotime($room['contract_datetime']));
-                        $expires = date("d-m-Y", strtotime($room['contract_expires']));
-                ?>
                 <div class="col-lg-6">
                     <div class="card m-b-30">  
                         <div class="card-body py-5">
@@ -92,6 +93,7 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                         $today = date("m-Y");
                                         $month = strtotime(date("d-m-Y", strtotime($expires)) . " -1 month");
                                         $month = strftime("%m-%Y", $month);
+                                    if(!empty($room['appoint_id'])){
                                         if($room['log_status']==0){
                                             if($month == $today)
                                             {
@@ -110,6 +112,8 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                             } 
                                         }
                                         else echo "Ngày trả phòng: $expires";
+                                    }
+                                    else echo"";
                                     ?>
                                     </div>
                                     <?php
@@ -146,7 +150,14 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                                                 </tr>
                                             </tbody>
                                         </table><br>
+                                        <?php 
+                                            if(empty($room['appoint_id'])){
+                                                echo "";
+                                            }
+                                            else{
+                                        ?>
                                         <a class="btn btn-primary" href="detail.php?id=<?php echo $room['room_id']?>">Chi tiết phòng</a>
+                                        <?php }?>
                                     </div>
                                 </div>
                             </div>
@@ -154,13 +165,13 @@ $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id =
                     </div>
                 </div>
             <!-- End col -->
-                <?php  
-                    }
-                }    
-            ?>
+              
             </div>
         </div>
- 
+        <?php  
+            }
+        }    
+        ?>
     <?php require_once 'block/block_footer.php'; ?>
     <?php require_once 'block/block_foottag.php'; ?>
 </body>

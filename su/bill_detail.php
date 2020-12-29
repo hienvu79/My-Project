@@ -9,7 +9,7 @@
   mysqli_set_charset($conn, 'UTF8');
   $id = $_GET['id'];
   $sql = "SELECT * FROM green_bill t1 INNER JOIN green_bill_items t2 ON t1.bill_id = t2.bill_id
-                                      INNER JOIN green_bill_log t3 ON t1.bill_id = t3.bill_id
+                                      LEFT JOIN green_bill_log t3 ON t1.bill_id = t3.bill_id
                                       WHERE t1.bill_id = '$id'
                                       ORDER BY t2.item_id";
     $result = mysqli_query($conn, $sql);
@@ -105,7 +105,7 @@
                 </table>
                 <?php 
                 if(empty($bills)){ 
-                    echo "<h3><a class='badge badge-primary' href='bill_item.php?id=$id'>Tạo hóa đơn</a></h3>";
+                  echo "";
                 }else{ 
                 ?>
                 <h3><center>Tổng tiền: <?php
@@ -125,7 +125,7 @@
                     ?>
                 <center><h5>Click vào nút bên dưới nếu hóa đơn đã thu.</h5>
                 <form>
-                  <button class="btn btn-primary" formmethod="post" name="oke" type="submit" value="<?php echo $bill['room_id']?>">Đã Thu</button>
+                  <button class="btn btn-primary" formmethod="post" name="oke" type="submit" value="<?php echo $bills[0]['bill_id']?>">Đã Thu</button>
                 </form></center>
                 <?php 
                   }
@@ -134,7 +134,7 @@
                 <?php 
                 if(!empty($bill)){
                   $bill_id = $bills[0]['bill_id'];
-                  if(isset($_POST['oke'])){
+                  if(isset($_POST['oke'])&&isset($bill_id)){
                     {  
                       $con=$p->connect();
                       $q->dathu($bill_id,$con);

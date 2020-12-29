@@ -7,8 +7,8 @@
 <?php
 require_once('source/dbconnect.php');
 mysqli_set_charset($conn, 'UTF8');
-
 $sql = "SELECT * FROM green_contract t1 INNER JOIN green_room t2 ON t1.room_id = t2.room_id 
+
 GROUP BY t1.room_id";
     $result = mysqli_query($conn, $sql);
   

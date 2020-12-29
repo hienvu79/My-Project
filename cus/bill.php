@@ -7,11 +7,12 @@
   <?php
   require_once('source/dbconnect.php');
   mysqli_set_charset($conn, 'UTF8');
-  $id = $_SESSION['customer_id'];
+  $cus_id = $_SESSION['customer_id'];
+  $id = $_GET['id'];
   $sql = "SELECT * FROM green_bill t1 INNER JOIN green_bill_items t2 ON t1.bill_id = t2.bill_id
                                       INNER JOIN green_contract t3 ON t1.contract_id = t3.contract_id
                                       INNER JOIN green_bill_log t4 ON t1.bill_id = t4.bill_id
-                                      WHERE t3.customer_id = '$id'
+                                      WHERE t3.customer_id = '$cus_id' AND t1.bill_id = '$id'
                                       ORDER BY t2.item_id";
     $result = mysqli_query($conn, $sql);
     

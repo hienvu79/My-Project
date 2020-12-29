@@ -168,7 +168,7 @@ mysqli_close($conn);
             var tbdate = document.getElementById("tbdate");
             if(day < today)
             {
-                tbdate.innerHTML = "Ngày hẹn phải sau ngày hiện tại 2 ngày";
+                tbdate.innerHTML = "Ngày hẹn phải sau ngày hiện tại ít nhất 2 ngày";
                 return false;
             }
             tbdate.innerHTML = "";

@@ -1,23 +1,3 @@
-<?php
-$menus = [
-  // [
-  //   'name'   => 'HỢP ĐỒNG',
-  //   'icon'   => 'fas fa-handshake',
-  //   'href'   => 'contract.php'
-  // ],
-  [
-    'name'   => 'PHIẾU CHI',
-    'icon'   => 'far fa-money-bill-alt',
-    'href'   => '#'
-  ],
-  [
-    'name'   => 'THỐNG KÊ',
-    'icon'   => 'fas fa-fw fa-chart-area',
-    'href'   => 'charts.php'
-  ],
-];
-?>
-
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -41,7 +21,6 @@ $menus = [
 
 
       <!-- Heading -->
-
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -56,19 +35,6 @@ $menus = [
           </div>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-handshake"></i>
-          <span>HỢP ĐỒNG</span>
-        </a>
-        <div id="collapsePage" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Hợp đồng:</h6>
-            <a class="collapse-item" href="contract.php">Tình trạng</a>
-            <a class="collapse-item" href="register.html">Chỉnh sửa</a>
-          </div>
-        </div>
-      </li>
        <!-- Nav Item - Utilities Collapse Menu -->
        <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -79,9 +45,10 @@ $menus = [
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Customer:</h6>
             <a class="collapse-item" href="add_new.php">Thêm Khách Thuê</a>
-            <a class="collapse-item" href="customers.php">Danh Sách Khách Thuê</a>
-            <a class="collapse-item" href="temporary.php">Đăng Ký Tạm Trú</a>
             <a class="collapse-item" href="pay_deposit.php">Trả Cọc</a>
+            <a class="collapse-item" href="contract.php">Hợp Đồng</a>
+            <a class="collapse-item" href="temporary.php">Đăng Ký Tạm Trú</a>
+            <a class="collapse-item" href="customers.php">Danh Sách Khách Thuê</a>
           </div>
         </div>
       </li>
@@ -98,21 +65,6 @@ $menus = [
           </div>
         </div>
       </li>
-      
-      <hr class="sidebar-divider">
-      <?php 
-        foreach($menus as $menu){
-          ?>
-       <li class="nav-item">
-        <a class="nav-link" href="<?php echo $menu['href']?>">
-          <i class="<?php echo $menu['icon']?>"></i>
-          <span><?php echo $menu['name']?></span>
-        </a>
-      </li>
-      <?php
-          }
-      ?>
-      
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 

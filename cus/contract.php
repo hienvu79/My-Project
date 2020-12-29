@@ -50,7 +50,7 @@
           <!-- Page Heading -->
           <?php 
             if(empty($rooms)){
-                echo "<h3>Chưa có dữ liệu</h3>";
+                echo "<h4>Chưa có dữ liệu</h4>";
             }
             else{
           ?>

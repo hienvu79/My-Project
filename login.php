@@ -1,93 +1,107 @@
-<?php 
-	session_start();
-	if(isset($_GET['value']))
-	{
-		unset($_SESSION['user']);
-	}
+<?php
+    session_start();
+    if(isset($_GET['value']))
+    {
+        unset($_SESSION['user']);
+    }
 ?>
 <?php ob_start();?>
-
-  <!doctype html>
-  <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="js/sweetalert.min.js"></script></head>
+  <title>Green Light - Login</title>
+  <?php 
+  ini_set('display_errors', '1');
+  ini_set('display_startup_errors', '1');
+  error_reporting(E_ALL);
+  
+  include ("source/class.php");
+  $p = new csdl();
+  $q = new taikhoan();
+?>
  
-  <head>
-    <title>Đăng nhập</title>
-    <?php require_once 'block/block_head.php';?>
-	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-	<style>
-		.col-md-5{margin: 0 auto;border: 2px dashed #b1154a;padding:20px;}
-	</style>
-  <body>
-  <!-- Preloader Start -->
-    <!-- <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <strong>Hotel</b>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Preloader Start -->
-    <header>
-       <?php require_once 'block/block_menu.php';?>
-    </header>
-    <main>
-        <!-- slider Area Start-->
-        <div class="slider-area">
-            <div class="single-slider hero-overly slider-height2 d-flex align-items-center" data-background="assets/img/hero/roomspage_hero.jpg" >
-                <div class="container">
-                    <div class="row ">
-                        <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
-                            <div class="hero-caption">
-                                <span>Login</span>
-                                <h2>Đăng nhập</h2>
-                            </div>
-                        </div>
+</head>
+
+<body class="bg-gradient-primary">
+
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image" style="background-image: url(img/h1_hero.jpg);"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  </div>
+                  <form class="user" method="post">
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name="user" placeholder="Nhập Tên...">
                     </div>
-                </div>
-            </div>
-        </div>
-		<!-- Room Start -->
-		<br>
-        <div class="container">
-			<form>
-				<div class="col-md-5">
-				<h2>Đăng nhập</h2>
-					<div class="form-group">
-						<label for="user-name" class="col-form-label">Tên đăng nhập:</label>
-						<input type="text" class="form-control" name="user">
-					</div>
-					<div class="form-group">
-						<label for="user-pass" class="col-form-label">Mật khẩu:</label>
-						<input type="password" class="form-control" name="pass">
+                    <div class="form-group">
+                      <input type="password" class="form-control form-control-user" name="pass" placeholder="Nhập Mật Khẩu">
                     </div>
-					<button class="btn btn-primary" formmethod="post" type="submit" name="dangnhap">Đăng nhập</button>
-				</div>
-			</form>
-		</div>
-		<br>
-	</main>
-			<?php
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                      </div>
+                    </div>
+                    <button type="submit" formmethod="post" name="dangnhap" class="btn btn-primary btn-user btn-block">Đăng Nhập</button  
+                    <hr>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <?php
 				$con=$p->connect();
 				if (isset($_POST['dangnhap']))
 				{
 					if($_POST['user']!=''&&$_POST['pass']!='')
 					{
-                        $q->login($_POST['user'],$_POST['pass'],$con);
-                        ob_end_flush();
+            $q->login($_POST['user'],$_POST['pass'],$con);
+            ob_end_flush();
 					}
-                    else
+          else
 					{
-                        echo "<script> swal('Bạn chưa nhập đủ thông tin','Yêu cầu nhập đủ','warning')</script>";
+            echo "<script> swal('Bạn chưa nhập đủ thông tin','Yêu cầu nhập đủ','warning')</script>";
 					}
 				}
-			  ?>
-    <footer>
-        <?php require_once 'block/block_footer.php'?> 
-    </footer> 
+			?>
 
-    <?php require_once 'block/block_foottag.php'?> 
-    </body>
+   <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+  </script>
+</body>
+
 </html>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>

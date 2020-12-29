@@ -54,16 +54,22 @@
   </div>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
       <!-- Main Content -->
       <div id="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <!-- Page Heading -->
+          <?php 
+              if(empty($rooms)){
+                echo "Không có dữ liệu";
+              }
+              else{
+            ?>
           <h1 class="h3 mb-2 text-gray-800">Tạo Hóa Đơn</h1>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
+            
               <h6 class="m-0 font-weight-bold text-primary">
               Phòng <?php echo $rooms[0]['room_name']?> - Tháng 
               <?php 
@@ -81,7 +87,6 @@
                         $price_w = number_format($room['price_water']);
                         $num_e = $room['electric_num_new'] - $room['electric_num_old'];
                         $num_w = $room['water_num_new'] - $room['water_num_old'];
-                        //$date = date("05-m-Y", strtotime($room['contract_datetime']));
                         $month = strtotime(date("d-m-Y", strtotime($room['contract_datetime'])) . " +1 month");
                         $date = strftime("05-%m-%Y", $month);
                         ?>
@@ -93,11 +98,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label >Internet:</label>
-                                    <input type="text" class="col-sm-3 form-control" placeholder="<?php echo $price_wifi;?>" name="wifi" required>
+                                    <input type="text" class="col-sm-3 form-control" value="<?php echo $price_wifi;?>" name="wifi" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label >Truyền hình cáp:</label>
-                                    <input type="text" class="col-sm-3 form-control" placeholder="<?php echo $price_cap;?>" name="cap" required>
+                                    <input type="text" class="col-sm-3 form-control" value="<?php echo $price_cap;?>" name="cap" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label >Giá phòng:</label>
@@ -147,6 +152,7 @@
                         </div>
                         <?php 
                             }
+                          }
                         ?>
                     </form>
                 </div>
@@ -165,8 +171,8 @@
                 $e_new=$_POST['e_new'];
                 $w_new=$_POST['w_new'];
 
-                $wifi=$_POST['wifi'];
-                $cap=$_POST['cap'];
+                $wifi=$room['price_wifi'];
+                $cap=$room['price_cap'];
                 $p_room=$room['room_price'];
                 $e_num=$e_new - $e_old;
                 $e_price=$room['price_electric'];
@@ -175,14 +181,8 @@
                 $incurred=$_POST['incurred'];
                 $date=$_POST['date'];
 
-                if($wifi=='0') $status = 0;
-                  else $status = 1;
-                if($cap=='0') $status1 = 0;
-                  else $status1 = 1;
-                if($incurred=='0') $status2 = 0;
-                  else $status2 = 1;
                 $q->addrecord($id,$e_old,$w_old,$e_new,$w_new,$con);
-                $q->addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$status,$status1,$status2,$con);
+                $q->addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$con);
             }
         ?>
 

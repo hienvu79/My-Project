@@ -64,6 +64,12 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <form>
+                    <?php 
+                          if(!isset($rooms)){
+                            echo "<h5>Bạn chưa trở thành khách trọ để thực hiện chức năng này.</h5>";
+                          }
+                          else{
+                          ?>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -98,6 +104,7 @@
                                 <center><button class="btn btn-primary" formmethod="post" type="submit" name="them">Thêm</button></center>
                             </div>
                         </div>
+                        <?php }?>
                     </form>
                 </div>
             </div>

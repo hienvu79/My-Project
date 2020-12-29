@@ -12,8 +12,8 @@
     error_reporting(E_ALL);
     
     include ("source/class.php");
-    $p = new taikhoan();
-    
+    $p = new csdl();
+    $q = new taikhoan();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +76,8 @@
   <?php
 				if (isset($_POST['submit']))
 				{
-					$p->admin($_POST['user'],$_POST['pass']);
+          $con = $p->connect();
+					$q->admin($_POST['user'],$_POST['pass'],$con);
           ob_end_flush();
 				}
 			  ?>

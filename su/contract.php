@@ -13,7 +13,7 @@
                            INNER JOIN green_customer t3 ON t1.customer_id = t3.customer_id
                            INNER JOIN green_contract_log t4 ON t1.contract_id = t4.contract_id 
                            INNER JOIN green_appointment t5 ON t1.customer_id = t5.customer_id
-                           WHERE t4.log_status = 1
+                           WHERE t4.log_status = '1'
                            GROUP BY t1.customer_id
                            ";
     $result = mysqli_query($conn, $sql);

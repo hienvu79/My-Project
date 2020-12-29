@@ -65,7 +65,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Tên khách hàng</th>
+                      <th>Tên khách trọ</th>
                       <th>Phòng</th>
                       <th>Số điện thoại</th>
                       <th>Số CMND</th>

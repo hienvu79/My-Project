@@ -47,27 +47,31 @@ class taikhoan
 			}
 			
 		}
-	function admin($user,$pass)
+	function admin($user,$pass,$con)
 	{
-		if ($user == "admin" && $pass == "123456") {
-            echo "<script> swal('Thành Công!', 'Bạn Đã Đăng Nhập Với Tư Cách Admin', 'success')</script>";
-			$_SESSION["user"] = $user;
-			header("location:index.php");
-            return true;
-        }
-        if ($user == "" && $pass == "") {
-            echo "<script> swal('Bạn Chưa Nhập Thông Tin!', 'Vui Lòng Kiểm Tra Lại', 'warning')</script>";
-            return false;
-        }
-        if ($user == "") {
-            echo "<script> swal('Bạn Chưa Nhập Tài Khoản', 'Vui Lòng Kiểm Tra Tài Khoản', 'error')</script>";
-            return false;
-        } 
-        if ($pass == "") {
-            echo "<script> swal('Bạn Chưa Nhập Mật Khẩu', 'Vui Lòng Kiểm Tra Mật Khẩu', 'error')</script>";
-            return false;
-        }
-        echo "<script> swal('Thông Tin Bạn Nhập Không Tồn Tại', 'Vui Lòng Kiểm Tra Hoặc Nhấn Quên Mật Khẩu', 'error')</script>";
+		$pass_md5=md5($pass);
+		$sql="SELECT * FROM green_admin WHERE user_name = '$user';";
+		$ketqua=mysqli_query($con,$sql);
+		$total_row = mysqli_num_rows($ketqua);
+		if($total_row > 0)
+		{
+			$row = mysqli_fetch_array($ketqua,MYSQLI_ASSOC);
+			if($row['user_pass'] == $pass_md5)
+			{
+				$_SESSION["user"] = $row['user_name'];
+				header("location:index.php");
+			}
+			else
+			{
+				echo "<script> swal('Tên đăng nhập hoặc mật khẩu sai','Vui lòng nhập lại','error')</script>";
+				return false;
+			}
+		}
+		else
+		{
+			echo "<script> swal('Tên đăng nhập hoặc mật khẩu sai','Vui lòng nhập lại','error')</script>";
+			return false;
+		}
 	}
 }
 class customer
@@ -156,26 +160,6 @@ class customer
 			echo 'Không thành công. Lỗi' . $con->error;
 		}
 	}
-	function xoa($con,$id)
-	{
-		$a = "DELETE FROM products WHERE product_id = '$id'";
-		$b = "DELETE FROM product_img WHERE product_id = '$id'";
-		mysqli_query($con,$a);
-		mysqli_query($con,$b);
-		echo "<script> swal('Oke!','Xóa sản phẩm thành công','success')</script>";
-	}
-	function sua($con,$pro_id,$tensp,$cat_id,$gia,$giakm,$mota,$sphot,$img_url)
-	{
-		$a = "UPDATE products 
-		SET product_title = '$tensp', category_id = '$cat_id', product_price = '$gia', product_discount = '$giakm', product_description = '$mota', popular = '$sphot'
-		WHERE product_id = '$pro_id'";
-		$b = "UPDATE product_img 
-		SET img_url = '$img_url'
-		WHERE product_id = '$pro_id'";
-		mysqli_query($con,$a);
-		mysqli_query($con,$b);
-		echo "<script> swal('Oke!','Sửa sản phẩm thành công','success')</script>";
-	}
 }
 class appoint
 {
@@ -260,8 +244,9 @@ class contract
 		$a = "INSERT INTO green_contract_record(contract_id,electric_num_old,electric_num_new,water_num_old,water_num_new) VALUES('$id','$e_old','$e_new','$w_old','$w_new')";
 		mysqli_query($con,$a);
 	}
-	function addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$status,$status1,$status2,$con)
+	function addbill($id,$date,$wifi,$cap,$p_room,$e_num,$e_price,$w_num,$w_price,$incurred,$con)
 	{
+		print_r($wifi);
 		$a1 = "INSERT INTO green_bill(contract_id,bill_date) VALUES('$id','$date')";
 		if ($con->query($a1) === TRUE){
 			$bill_id = $con->insert_id;
@@ -271,11 +256,11 @@ class contract
 			mysqli_query($con,$b);
 			$c = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Tiền Nước','$w_price','$w_num')";
 			mysqli_query($con,$c);
-			$d = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Tiền Cáp','$cap','$status1')";
+			$d = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Tiền Cáp','$cap','1')";
 			mysqli_query($con,$d);
-			$e = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Tiền Wifi','$wifi','$status')";
+			$e = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Tiền Wifi','$wifi','1')";
 			mysqli_query($con,$e);
-			$f = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Chi Phí Khác','$incurred','$status2')";
+			$f = "INSERT INTO green_bill_items(bill_id,item_name,price,quantity) VALUES('$bill_id','Chi Phí Khác','$incurred','1')";
 			mysqli_query($con,$f);
 			$g = "INSERT INTO green_bill_log(bill_id,log_content,log_status) VALUES('$bill_id','Chưa Thu','0')";
 			mysqli_query($con,$g);
@@ -317,8 +302,8 @@ class contract
 	}
 	function dathu($bill_id,$con)
 	{
-		$a = "UPDATE green_bill_log SET bill_id = '$bill_id', log_content = 'Đã Thu', log_status = '1'
-		WHERE log_status = '0'";
+		$a = "UPDATE green_bill_log SET log_content = 'Đã Thu', log_status = '1'
+		WHERE log_status = '0' AND bill_id = '$bill_id'";
 		mysqli_query($con,$a);
 		echo "<script> swal('Oke','Đã xác nhận','success')</script>";
 	}

@@ -81,16 +81,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cus-room" class="col-form-label">Chọn Phòng:</label>
-                                    <select name="room" class="col-form-label">
-                                      <option value="">Chọn phòng</option>
-                                      <?php 
-                                        foreach($rooms as $room){
-                                          ?>
-                                        <option value="<?php $room['room_id']?>"><?php echo $room['room_name']?></option>
-                                      <?php  }
+                                    <select id="select" name="room" class="form-control" onchange="chonid()">
+                                    <option value="">Chọn phòng</option>
+                                    <?php foreach($rooms as $room){
                                       ?>
-                                    </select>
-                                </div>
+                                    <option value="<?php echo $room['room_id']?>"><?php echo $room['room_name']?></option>
+                                      <?php }?>
+                                  </select>
+                              </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -109,6 +107,10 @@
                                     <label for="cus-date" class="col-form-label">Ngày kết thúc:</label>
                                     <input type="date" class="form-control" name="expires">
                                 </div>
+                                <div class="form-group">
+                                  <label class="col-form-label">ID Phòng:</label>
+                                  <input type="text" class="form-control" id="room_id" name="room_id" readonly/>   
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <center><button class="btn btn-primary" formmethod="post" type="submit" name="them">Thêm</button></center>
@@ -123,7 +125,14 @@
       </div>
       <!-- End of Main Content -->
       <!-- Footer -->
-    
+    <script>
+      function chonid(){
+      var id = document.getElementById("select").value;
+      var vt = id.indexOf(";");
+      var r_id = id.substring(vt + 1,id.length);
+      document.getElementById("room_id").value = r_id;
+    }
+    </script>
         <?php
             if(isset($_POST['them'])){
                 $con=$p->connect();
@@ -136,7 +145,7 @@
                 $ngaysinh=$_POST['birthday'];
                 $join=$_POST['join'];
                 $expires=$_POST['expires'];
-                $id=$_POST['room'];
+                $id=$_POST['room_id'];
                 $q->checknew($id,$user,$pass,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
             }
         ?>
