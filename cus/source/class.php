@@ -3,7 +3,7 @@ class csdl
 {
 	function connect()
 	{
-		$con=mysqli_connect("localhost","vnappmob","123456");
+		$con=mysqli_connect("db","vnappmob","123456");
 		if(!$con)
 		{
 			echo 'Không kết nối csdl';
@@ -22,8 +22,7 @@ class taikhoan
 	function login($user,$pass,$con)
 	{
 		$pass_md5=md5($pass);
-		$sql="SELECT * FROM green_customer t1 INNER JOIN green_contract t2 ON t1.customer_id = t2.customer_id 
-		WHERE t1.user_name = '$user';";
+		$sql="SELECT * FROM green_customer WHERE user_name = '$user';";
 		$ketqua=mysqli_query($con,$sql);
 		$total_row = mysqli_num_rows($ketqua);
 		if($total_row > 0)
@@ -45,8 +44,7 @@ class taikhoan
 		{
 			echo "<script> swal('Tên đăng nhập hoặc mật khẩu sai','Vui lòng nhập lại','error')</script>";
 			return false;
-		}
-		
+		}		
 	}
 }
 class contract
@@ -66,7 +64,7 @@ class contract
 }
 class customer
  {	
-	function checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con)
+	function checknew($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
 	{		
 		$sql="SELECT * FROM green_customer WHERE customer_identity='$cmnd'";
 		$ketqua=mysqli_query($con,$sql);
@@ -89,26 +87,20 @@ class customer
 			}
 			else
 			{
-				$this->add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con);
+				$this->add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con);
 				echo "<script> swal('Oke!','Thêm bạn trọ thành công','success')</script>";
 			}
 		}
 		
 	}
-	function add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$e_price,$w_price,$wifi,$cap,$con)
+	function add_new($room_id,$fullname,$sdt,$cmnd,$ngaysinh,$join,$expires,$con)
 	{
 		$a="INSERT INTO green_customer(customer_name,customer_phone,customer_identity,customer_birthday,user_name,user_pass)
 		VALUES('$fullname','$sdt','$cmnd','$ngaysinh','','')";
 		if ($con->query($a) === TRUE){
 			$cus_id = $con->insert_id;
 			$c="INSERT INTO green_contract(customer_id,room_id,contract_datetime,contract_expires) VALUES('$cus_id','$room_id','$join','$expires')";
-			if ($con->query($c) === TRUE){
-				$con_id = $con->insert_id;
-				$d = "INSERT INTO green_contract_log(contract_id,log_content,log_status) VALUES('$con_id','Đang Ở','0')";
-				mysqli_query($con,$d);
-				$e = "INSERT INTO green_contract_price(contract_id,price_electric,price_water,price_wifi,price_cap) VALUES('$con_id','$e_price','$w_price','$wifi','$cap')";
-				mysqli_query($con,$e);
-			}
+			mysqli_query($con,$c);
 		}
 		else
 		{

@@ -159,6 +159,10 @@ error_reporting(E_ALL);
                             </div>
                             <div class="room-caption">
                                 <h3><a href="room.php?id=<?php echo $room['room_id']?>">Phòng <?php echo $room['room_name']?></a></h3>
+                                <?php 
+                                    if($room['room_status']==0) echo "<span class='badge badge-pill badge-success'>Phòng trống</span>";
+                                    else echo "<span class='badge badge-pill badge-danger'>Đã cho thuê</span>";
+                                ?>
                                 <div class="per-night">
                                     <span><?php echo  $format_num?> VND <span>/ 1 tháng</span></span>
                                 </div>

@@ -36,7 +36,7 @@ $e = new appoint();
                                         <li><a href="index.php">Trang Chủ</a></li>
                                         <li><a href="rooms.php">Danh Sách Phòng</a><li>
                                         <li><a href="timelines.php">Lịch Hẹn</a></li>
-                                        <li><a href="../green-light/cus">Quản Lý</a></li>
+                                        <li><a href="../cus">Quản Lý</a></li>
                                         <li><a href="#">Xin Chào,<?php echo $_SESSION['user'];?></a></li>
                                         <li><a href="index.php?value=logout">Đăng Xuất</a></li>
                                     <?php
